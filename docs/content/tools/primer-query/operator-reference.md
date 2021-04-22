@@ -5,6 +5,7 @@ hidden: true
 ---
 #1.0 | Primer Query Parameters
 
+
 |Name|Description|
 |---|---|
 |primer|Records enter a multi-stage pipeline that transforms the records into aggregated results. Supports `$group` and `Aggregation` operators.|
