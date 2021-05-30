@@ -1,12 +1,16 @@
 ---
 title: Aave Governance
-order: 5
+order: 1
 hidden: false
-featuredImage: ./images/aave-governance-banner.png
+featuredImage: ../images/aave-governance-banner.png
 description: A governance dashboard for the Aave Protocol
+tags:
+  - Governance
+  - Dungeons&Data
+  - Hackathons
 ---
 
-![Coin Defit Banner](./images/aave-governance-banner.png)
+![Coin Defit Banner](../images/aave-governance-banner.png)
 
 &nbsp;
 # Aave Governance Dashboard

@@ -1,12 +1,16 @@
 ---
 title: NFTree
-order: 8
+order: 3
 hidden: false
-featuredImage: ./images/nftree.png
+featuredImage: ../images/nftree.png
 description: This project allows users to save and invest crypto in a fun new way and create NFT art at the same time.
+tags:
+  - NFT
+  - EthGlobal
+  - Hackathons
 ---
 
-![NFTree Banner](./images/nftree.png)
+![NFTree Banner](../images/nftree.png)
 
 &nbsp;
 # NFTree

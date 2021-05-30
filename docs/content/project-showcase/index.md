@@ -1,13 +1,17 @@
 ---
 title: Project Showcase
 order: 7
-hideChildren: true
+hideChildren: false
 ---
+import DocsProjectsOverview from "../../docs/components/docs-project-showcase-overview.js"
 
 # Project Showcase
 Our ecosystem of community developers continue to astonish us with their creativity in using the Covalent API to power their dApps! Here is a showcase of some of the best projects we have seen to date:
 
-&nbsp;
+ 
+<DocsProjectsOverview/>
+
+<!-- &nbsp;
 ## Independent Projects
 
 ### [GoSwapp](/project-showcase/goswapp)
@@ -46,5 +50,5 @@ Our ecosystem of community developers continue to astonish us with their creativ
 &nbsp;
 ## Alchemists Buidlers
 ### [Nifty NFTS](/project-showcase/nifty-nfts)
-[![Nifty NFTs](./images/nifty-nfts.png)](/project-showcase/nifty-nfts)
+[![Nifty NFTs](./images/nifty-nfts.png)](/project-showcase/nifty-nfts) -->
 

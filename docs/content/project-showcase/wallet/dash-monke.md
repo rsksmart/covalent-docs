@@ -1,12 +1,16 @@
 ---
 title: Dash Monke
-order: 2
+order: 1
 hidden: false
-featuredImage: ./images/dashmonke-banner.png
+featuredImage: ../images/dashmonke-banner.png
 description: The most secure wallet app which does not transfer funds, or even store your keys!
+tags:
+  - Wallet
+  - OneMillionWallet
+  - Hackathons
 ---
 
-![Dash Monke Banner](./images/dashmonke-banner.png)
+![Dash Monke Banner](../images/dashmonke-banner.png)
 
 &nbsp;
 # Dash Monke
