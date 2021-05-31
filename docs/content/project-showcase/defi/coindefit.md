@@ -2,8 +2,8 @@
 title: Coin Defit
 order: 1
 hidden: false
-featuredImage: ./images/coindefit-banner.png
-description: Know how much profit you would have made in a Uniswap poola
+featuredImage: ../images/coindefit-banner.png
+description: Know how much profit you would have made in a Uniswap pool
 tags: 
   - DeFi
   - Independent Projects
