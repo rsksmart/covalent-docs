@@ -2,6 +2,8 @@
 title: NFTree
 order: 3
 hidden: false
+author: anadi2311
+updated: 2021-05-30
 featuredImage: ../images/nftree.png
 description: This project allows users to save and invest crypto in a fun new way and create NFT art at the same time.
 tags:

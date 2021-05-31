@@ -57,8 +57,12 @@ covalent-docs
 |--docs
 |--|--content
 |--|--|--project-showase
+|--|--|--|--dao
 |--|--|--|--defi/moonshot.md
 |--|--|--|--images/moonshot.png
+|--|--|--|--governance
+|--|--|--|--nft
+|--|--|--|--wallet
 |--public
 |--resources/_gen
 |--s

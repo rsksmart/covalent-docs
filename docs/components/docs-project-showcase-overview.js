@@ -18,13 +18,16 @@ const DocsProjectsData = props => {
               slug
             }
             frontmatter {
-              order
               title
+              order
               tags
+              description
+              updated
+              author
               featuredImage {
                 childImageSharp {
-                  fixed(width:1200) {
-                    src
+                  fluid(width:600) {
+                    ...GatsbyImageSharpFluid
                   }
                 }
               }
@@ -42,8 +45,7 @@ const DocsProjectsData = props => {
       }
     }
   `)
-
-  console.log(props)
+  
   const projects = query.allMdx.edges
     .map(({ node }) => node)
     .filter(page => page.fields.slug.match(/^\/project-showcase\/.+/))
@@ -52,7 +54,6 @@ const DocsProjectsData = props => {
       title: getPageTitle(page),
       url: page.fields.slug,
       tags: page.frontmatter.tags,
-      featureImage: page.frontmatter.featureImage.childImageSharp.fluid,
       new: (+new Date() - +new Date(page.frontmatter.updated)) < tenDaysInMS
     }))
     .sort((a, b) => +new Date(b.updated) - +new Date(a.updated))
@@ -86,22 +87,53 @@ class DocsProjectsOverview extends React.Component {
     return (
       <DocsProjectsData>
         {({ projects, tags }) => (
-            <Card>
-                <Img className="project-feature-image-top" fluid={project.featureImage} />
-                <CardBody>
-                    <CardTitle>
-                        {projects.title}
-                    </CardTitle>
-                    <CardSubtitle>
-                            AAAAAAAA
-                    </CardSubtitle>
-                    <CardText>
-                            AAA
-                    </CardText>
-
-                </CardBody>
-            </Card>  
-
+          <>
+            <div className="TagsFilter">
+              {tags.map(tag => (
+                <button
+                  key={tag}
+                  className={
+                    `Button TagsFilter--button${
+                      tag !== activeTag ? "" :
+                        " Button-is-docs-primary TagsFilter--button-active"
+                    }`
+                  }
+                  onClick={() => {
+                    this.setState({
+                      activeTag: tag
+                    })
+                  }}
+                  children={tag}/>
+              ))}
+            </div>
+            <div className="Projects-Cards">
+                    {projects
+                        .filter(ex =>
+                        activeTag === "All Projects" ?
+                            true :
+                            ex.tags.indexOf(activeTag) >= 0
+                        )
+                        .map((project, i) => (
+                    <Card>
+                        <Img className="project-feature-image-top" fluid={project.featuredImage} />
+                        <CardBody>
+                            <CardTitle>
+                                {project.title}
+                            </CardTitle>
+                            <CardSubtitle>
+                                    Last Updated: {project.new} By {project.author} 
+                            </CardSubtitle>
+                            <CardText>
+                                    {project.description}
+                            </CardText>
+                            <Link to={project.slug} >
+                              Read more
+                            </Link>
+                        </CardBody>
+                    </Card>  
+                    ))}
+              </div>
+          </>
         )}
       </DocsProjectsData>
     )

@@ -2,6 +2,8 @@
 title: Nifty NFTs
 order: 4
 hidden: false
+author: anadi2311
+updated: 2021-05-30
 featuredImage: ../images/nifty-nfts.png
 description: Twitter Bot showcasing inspiring NFTs and highlights the power of Covalent's API!
 tags:

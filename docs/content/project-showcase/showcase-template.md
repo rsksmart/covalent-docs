@@ -21,11 +21,11 @@ Title should be in title case:
 
 ![Template banner image](./images/covalent-logo.png) 
 
-<< check which covalent image to put here>>
+<< Insert Logo with the specified dimensions>>
 
 **Disclaimer:** The content is created andd submitted by the interested project. Covalent only reviews the standards.
 
-
+&nbsp;
 ## Introduction
 
 This section should cover:
@@ -33,23 +33,28 @@ This section should cover:
 - At what stage is your project and on which network/blockchain it exists.
 - How covalent brought value to you and/or how you will bring value to Covalent's ecoystem.
 
-
+&nbsp;
 ## Content 
 This section contains the content who want to put emphasis on your project showcase.
 
-### Minimum and Optional content
+&nbsp;
+### Minimum Content
 - A brief description of how your project utilizes Covalent which must include:
     - Which endpoints are being used and/or planning to use?
     - How Covalent APIs helped you to achieve your project goal?
     - How Covalent align with the future vision of your project? (optional)
-- Show working image(s) of the infrastructure piece that's being powered by Covalent or a link to a working prototype.
+- Show working images(max 3) of the infrastructure piece that's being powered by Covalent or a link to a working prototype.
 - Link to Github Repos (optional: if open-souced)
 - Link to Communication channels. 
 ---------
+
+&nbsp;
 ## Docs Standard
 
 There's no need to include this section. This is just for your reference. Delete this when submitting your PR.
 
+
+&nbsp;
 ### Bullet Lists
 
 1. Bullets should start with `-` followed by a `space`: `dash` + `space`. For sublists, use a `tab` followed by `dash`
@@ -78,6 +83,7 @@ Some text here:
 3. Step 3
 ```
 
+&nbsp;
 ### Images
 1. Add images in `../images/you-image.png`. Either `png` or `svg` can be used.
 2. Use the following structure to bring images in the your markdown file. 
@@ -86,6 +92,7 @@ Some text here:
 ![Image metadata](../images/your-image.png)
 ```
 
+&nbsp;
 ### Tables
 
 Tables can be used as well and can contain arbitrary Markdown code. As a reference, you can use this online [table generator](https://www.tablesgenerator.com/markdown_tables). To create a table, you can use the following structure:
@@ -96,4 +103,40 @@ Tables can be used as well and can contain arbitrary Markdown code. As a referen
 | `ONE`       |  Fetch resource  |
 | `TWO`       |  Update resource |
 | `Three `    |  Delete resource |
+```
+
+&nbsp;
+### Content Tabs
+In some cases, you might want to group alternative content under different tabs. For example, you are describing a code snippet in various languages. Content tabs allow you to wrap content in a single block. This block offers different tabs that will change the content depending on how you configure it. To do so, you can use the following structure:
+
+```
+=== "Option1"
+    ```
+    code snippet one
+    ```
+
+=== "Option2"
+    ```
+    code snippet two
+    ```
+
+=== "Option3"
+    ```
+    code snippet three
+    ```
+
+```
+
+&nbsp;
+### Notes
+The notes option (!!! note) is super helpful when you want users to read some specific information. Notes can have custom titles with the following syntax `!!! note` “Your Title Here”. To do so, you can use the following structure:
+
+```
+Some text here.
+
+!!! note
+    This is a note. There is an empty line before the !!! note syntax, 
+    and one right after this text. Note that this sentence will end with a dot.
+    
+Some text here
 ```

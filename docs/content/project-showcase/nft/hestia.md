@@ -3,6 +3,8 @@ title: Hestia
 order: 2
 hidden: false
 featuredImage: ../images/hestia-banner.png
+author: anadi2311
+updated: 2021-05-30
 description: A one-stop shop to Create, Sell and Showcase your Artwork aiming to democratize the control and pricing of assets via Harberger Taxes
 tags:
   - NFT

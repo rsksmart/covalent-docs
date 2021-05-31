@@ -2,6 +2,8 @@
 title: Aave Governance
 order: 1
 hidden: false
+author: anadi2311
+updated: 2021-05-30
 featuredImage: ../images/aave-governance-banner.png
 description: A governance dashboard for the Aave Protocol
 tags:

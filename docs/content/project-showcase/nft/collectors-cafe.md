@@ -2,6 +2,8 @@
 title: Collectors Cafe
 order: 1
 hidden: false
+author: anadi2311
+updated: 2021-05-30
 featuredImage: ../images/collectors-cafe-banner.png
 description: A social network to discover, exhibit and trade NFTs
 tags:
