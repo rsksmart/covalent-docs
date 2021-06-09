@@ -8,223 +8,237 @@ author: gane5h
 description: Learn how to use Primer's comparison operators and combine query criteria to make compound queries
 tags: 
   - Primer
-  - MongoDB
   - Intermediate
+  - Group
+  - Primer-Query Operators 
 ---
 
 # Querying with Primer (Intermediate)
 
-In the previous cookbook recipe, you were able to use Primer to query the blockchain for exact matches and with the dot notation. In this guide, we  will use Primer's comparison operators and combine query criteria to make compound queries.
+In the previous cookbook recipe, we learned how to filter the data from a Class A endpoint using `Match` and how to use `Sort`,`Limit`,`Skip`.
+In this tutorial, we will go through very poweful `Group` which can pivot the data and how to use primer-query operators to compound transformations.
+
+In [developer tools](../../tools/primer-query), we gave detailed explanation of all the [operators](../../tools/primer-query#primer-query-operators) currently available with Primer. 
+
+## Primer Syntax
+
+In this section we will cover:
+
+- Group
+- Aggregation
+- Comparision Operators
+- Logical Operators
+- Element
+- Date Aggregation
+
+### Group
+
+Group primer-query parameter can be used to pivot the response of a class A enpoint on an `_id`. Group supports nesting to access an element just like all the other primer-query parameters. In conjunction with operators, group can provide powerful insights in a single query. Some examples are given below:
 
 
-## Comparison operators
-
-The operators include: >, <, >=, <=, ===, and !==
-
-<TableWrap>
-
-|Operator|Primer|Description|
-|---|---|---|
-|>|`$gt`|Greater than|
-|<|`$lt`|Less than|
-|>=|`$ge`|Greater than or equal|
-|<=|`$le`|Less than or equal|
-|===|`$eq`|Equal to|
-|!==|`$ne`|Not equal to|
-
-</TableWrap>
-
-Let's use a real-world example from the transaction endpoint. We have set `no-logs` to `true` to omit logs for simplicity. 
 
 ```json
-// https://api.covalenthq.com/v1/1/address/0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae/transactions_v2/?no-logs=true&page-number=0&page-size=5&key=...
+---
+header: grouping transactions on success
+---
+group=
 {
-  "data": {
-    "address": "0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae",
-    "updated_at": "2021-03-15T04:52:25.163178447Z",
-    "next_update_at": "2021-03-15T04:57:25.163179170Z",
-    "quote_currency": "USD",
-    "chain_id": 1,
-    "items": [
-      {
-        "block_signed_at": "2021-02-20T17:47:24Z",
-        "tx_hash": "0xf6d6298acb1df20ce05d272c270614cc7ff9d4a4dc699e9ac7110dbb36db0130",
-        "tx_offset": 121,
-        "successful": true,
-        "from_address": "0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae",
-        "from_address_label": null,
-        "to_address": "0x090d4613473dee047c3f2706764f49e0821d256e",
-        "to_address_label": "Uniswap: Token Distributor",
-        "value": "0",
-        "value_quote": 0.0,
-        "gas_offered": 90071,
-        "gas_spent": 81883,
-        "gas_price": 182000000000,
-        "gas_quote": 28.776617,
-        "gas_quote_rate": 1930.9658
-      },
-      {
-        "block_signed_at": "2021-01-02T07:32:21Z",
-        "tx_hash": "0x5541d233d378cb47916dbbe89720fe8f38acad1345aa8d320b1bcda1cfe88c4e",
-        "tx_offset": 153,
-        "successful": true,
-        "from_address": "0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae",
-        "from_address_label": null,
-        "to_address": "0xd9e1ce17f2641f24ae83637ab66a2cca9c378b9f",
-        "to_address_label": null,
-        "value": "33583608856374710",
-        "value_quote": 26.144056,
-        "gas_offered": 227697,
-        "gas_spent": 193660,
-        "gas_price": 40700000000,
-        "gas_quote": 6.1359234,
-        "gas_quote_rate": 778.4767
-      },
-      {
-        "block_signed_at": "2021-01-02T05:48:25Z",
-        "tx_hash": "0xfa442f76d8e5dd13ac49e4dd3c5272286c5cce9e094b5e0a93d2d2548d41537e",
-        "tx_offset": 157,
-        "successful": true,
-        "from_address": "0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae",
-        "from_address_label": null,
-        "to_address": "0x06da0fd433c1a5d7a4faa01111c044910a184553",
-        "to_address_label": null,
-        "value": "0",
-        "value_quote": 0.0,
-        "gas_offered": 66531,
-        "gas_spent": 44354,
-        "gas_price": 39000000000,
-        "gas_quote": 1.3466136,
-        "gas_quote_rate": 778.4767
-      },
-      {
-        "block_signed_at": "2021-01-02T05:48:25Z",
-        "tx_hash": "0xe8e564a57b2a60eb7fefe1626c5ae1617b510c3e7bf4932a76b9e9fb4e360573",
-        "tx_offset": 156,
-        "successful": false,
-        "from_address": "0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae",
-        "from_address_label": null,
-        "to_address": "0xd9e1ce17f2641f24ae83637ab66a2cca9c378b9f",
-        "to_address_label": null,
-        "value": "40000000000000000",
-        "value_quote": 31.139067,
-        "gas_offered": 241100,
-        "gas_spent": 23166,
-        "gas_price": 35000000000,
-        "gas_quote": 0.6311967,
-        "gas_quote_rate": 778.4767
-      },
-      {
-        "block_signed_at": "2021-01-02T05:18:34Z",
-        "tx_hash": "0x524d4131b0ceb2710b9d937daa0e43481b8c1950045caede2f4bb9e8863193b9",
-        "tx_offset": 134,
-        "successful": true,
-        "from_address": "0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae",
-        "from_address_label": null,
-        "to_address": "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
-        "to_address_label": null,
-        "value": "0",
-        "value_quote": 0.0,
-        "gas_offered": 48847,
-        "gas_spent": 44407,
-        "gas_price": 36300000000,
-        "gas_quote": 1.2548842,
-        "gas_quote_rate": 778.4767
-      }
-    ],
-    "pagination": {
-      "has_more": true,
-      "page_number": 0,
-      "page_size": 5,
-      "total_count": null
+    "_id": "successful"
+}
+```
+
+URL: [https://api.covalenthq.com/v1/1/address/0x9fd3e6610C543ee6A9e199B143505b2172057623/transactions_v2/?page-size=9000&group={%22_id%22:%22successful%22}](https://api.covalenthq.com/v1/1/address/0x9fd3e6610C543ee6A9e199B143505b2172057623/transactions_v2/?page-size=9000&group={%22_id%22:%22successful%22}&key=ckey_66c94c405aae4cb38d94092f634)
+
+### Aggregation
+
+In this section, we will see how we can aggregate the data on grouping by `_id`. Syntax for operators begins with a `$`. For example:
+
+```json 
+---
+header: using sum opeartor
+---
+  "gas_sum": {
+        "$sum": "gas_quote"
     }
-  },
-  "error": false,
-  "error_message": null,
-  "error_code": null
-}
-
 ```
-
-
-<!-- We can compare dates  -->
-
-
-### Select records using the less-than operator.
-
-The following example retrieves all records from the transaction endpoint where the `gas_spent` field is less than `50000`:
+Using we can similarly use `avg`,`max`,`min`. 
 
 ```json
 ---
-header: The less-than operator
+header: using group with aggregation
 ---
-{
-    "gas_spent": {
-      "$lt": 50000
-    }      
-}
+group=
+    {
+        "_id": "successful",
+        "gas_sum": {
+        "$sum": "gas_quote"
+      },
+        "gas_avg": {
+        "$avg": "gas_quote"
+      },
+        "gas_max": {
+        "$max": "gas_quote"
+      },
+        "gas_min": {
+        "$min": "gas_quote"
+      }
+    }
 ```
 
-## Logical operators
+URL: [https://api.covalenthq.com/v1/1/address/0x9fd3e6610C543ee6A9e199B143505b2172057623/transactions_v2/?page-size=9000&group={
+        "_id": "successful",
+        "gas_sum": {
+        "$sum": "gas_quote"
+      },
+        "gas_avg": {
+        "$avg": "gas_quote"
+      },
+        "gas_max": {
+        "$max": "gas_quote"
+      },
+        "gas_min": {
+        "$min": "gas_quote"
+      }
+    }](https://api.covalenthq.com/v1/1/address/0x9fd3e6610C543ee6A9e199B143505b2172057623/transactions_v2/?page-size=9000&key=ckey_66c94c405aae4cb38d94092f634&group=%20{%20%22_id%22:%20%22successful%22,%20%22gas_sum%22:%20{%20%22$sum%22:%20%22gas_quote%22%20},%20%22gas_avg%22:%20{%20%22$avg%22:%20%22gas_quote%22%20},%20%22gas_max%22:%20{%20%22$max%22:%20%22gas_quote%22%20},%20%22gas_min%22:%20{%20%22$min%22:%20%22gas_quote%22%20}%20})
 
 
+### Comparision
 
+[Comparision](`include link here`) operator are used in accordance with match to filter values based on a specific condition. For example:
 
-### Select records using logical operators
-
-The following example retrieves all records from the transaction endpoint where the `gas_spent` field is between `50000` and `100000`:
-
+Let's get all the events by `0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae` whose  `tx_offset` was greater than or equal to `30`.
 
 ```json
 ---
-header: The $and logical operator operator
+header: using gte
 ---
+match={
+  "tx_offset": {
+    "$gte":30
+  }
+}
+```
+URL: 
+[https://api.covalenthq.com/v1/1/address/0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae/transactions_v2/?match={%20%22tx_offset%22:%20{%20%22$gte%22:30%20}%20}](https://api.covalenthq.com/v1/1/address/0x5a6d3b6bf795a3160dc7c139dee9f60ce0f00cae/transactions_v2/?key=ckey_2230602b71244a05a42158400f7&match={%20%22tx_offset%22:%20{%20%22$gte%22:30%20}%20})
+
+### Logical
+
+Primer [Logical](`logical`) opeartors allow the queries to be overlayed with logical filters. For example,
+
+
+Let's get all the events on `0xA361718326c15715591c299427c62086F69923D9` which were not `Transfer` and `Approval` events and were made at this address - `0x6f858d52ff946d3a4c91fe5a7cdc408212d17a1b` 
+
+```json
+---
+header: using $and with $not
+---
+match=
 {
-    "gas_spent": {
-      "$and": [
+    "$and": [
         {
-          "gas_spent": {
-            "$gt": 50000
-          }
+            "$not": {
+                "decoded.name": "Transfer"
+            }
         },
         {
-          "gas_spent": {
-            "$le": 100000
-          }
+            "$not": {
+                "decoded.name": "Approval"
+            }
+        },
+      {
+      "decoded.params.0.value": "0x6f858d52ff946d3a4c91fe5a7cdc408212d17a1b"
+      }
+    ]
+}
+```
+URL: 
+[https://api.covalenthq.com/v1/1/events/address/0xA361718326c15715591c299427c62086F69923D9/?starting-block=12000000&ending-block=latest&page-size=999999&match={%20%22$and%22:%20[%20{%20%22$not%22:%20{%20%22decoded.name%22:%20%22Transfer%22%20}%20},%20{%20%22$not%22:%20{%20%22decoded.name%22:%20%22Approval%22%20}%20},%20{%20%22decoded.params.0.value%22:%20%220x6f858d52ff946d3a4c91fe5a7cdc408212d17a1b%22%20}%20]%20}](https://api.covalenthq.com/v1/1/events/address/0xA361718326c15715591c299427c62086F69923D9/?starting-block=12000000&ending-block=latest&page-size=999999&key=ckey_2230602b71244a05a42158400f7&match={%20%22$and%22:%20[%20{%20%22$not%22:%20{%20%22decoded.name%22:%20%22Transfer%22%20}%20},%20{%20%22$not%22:%20{%20%22decoded.name%22:%20%22Approval%22%20}%20},%20{%20%22decoded.params.0.value%22:%20%220x6f858d52ff946d3a4c91fe5a7cdc408212d17a1b%22%20}%20]%20})
+
+
+### Element
+
+Element operator matches the document with a specific field if its true then returns it.
+
+```json
+---
+header: using match with $exists
+---
+match= 
+{
+    "decoded.params.0.value": {
+     "$exists":"0x5cbc35DA078c9c2af1f3E3F9DbA4AFbe10bDa16e" 
+    }
+  }
+```
+URL:
+
+[https://api.covalenthq.com/v1/1/events/topics/0x9d42cb017eb05bd8944ab536a8b35bc68085931dd5f4356489801453923953f9/?ending-block=latest&sender-address=0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95&match={%20decoded.params.0.value:%20{%20$exists:%220x5cbc35da078c9c2af1f3e3f9dba4afbe10bda16e%22}}](https://api.covalenthq.com/v1/1/events/topics/0x9d42cb017eb05bd8944ab536a8b35bc68085931dd5f4356489801453923953f9/?ending-block=latest&sender-address=0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95&key=ckey_2230602b71244a05a42158400f7&match={%20decoded.params.0.value:%20{%20$exists:%220x5cbc35da078c9c2af1f3e3f9dba4afbe10bda16e%22}})
+
+
+### Date Aggregation
+
+Date aggreation provides functionality to pivot and aggreagate the date and time of a record with granularity from years to a minute.
+For example:
+
+```json
+---
+header: grouping ob date and time
+---
+ group={
+    "_id": {
+        "month": {
+            "$month": "block_signed_at"
+        },
+        "day": {
+            "$dayOfMonth": "block_signed_at"
+        },
+        "year": {
+            "$year": "block_signed_at"
+        },
+        "hour": {
+            "$hourOfDay": "block_signed_at"
         }
-      ]
-    }      
-}
+    },
+    "transfer_count": {
+                "$sum": 1
+            }
+ }
 ```
 
-## Datetime values
+URL: [https://api.covalenthq.com/v1/1/events/address/0xA361718326c15715591c299427c62086F69923D9/?starting-block=11000000&ending-block=12000000&group={%20%22_id%22:%20{%20%22month%22:%20{%20%22$month%22:%20%22block_signed_at%22%20},%20%22day%22:%20{%20%22$dayOfMonth%22:%20%22block_signed_at%22%20},%20%22year%22:%20{%20%22$year%22:%20%22block_signed_at%22%20},%20%22hour%22:%20{%20%22$hourOfDay%22:%20%22block_signed_at%22%20}%20},%20%22transfer_count%22:%20{%20%22$sum%22:%201%20}%20}](https://api.covalenthq.com/v1/1/events/address/0xA361718326c15715591c299427c62086F69923D9/?starting-block=11000000&ending-block=12000000&group={%20%22_id%22:%20{%20%22month%22:%20{%20%22$month%22:%20%22block_signed_at%22%20},%20%22day%22:%20{%20%22$dayOfMonth%22:%20%22block_signed_at%22%20},%20%22year%22:%20{%20%22$year%22:%20%22block_signed_at%22%20},%20%22hour%22:%20{%20%22$hourOfDay%22:%20%22block_signed_at%22%20}%20},%20%22transfer_count%22:%20{%20%22$sum%22:%201%20}%20}&key=ckey_2230602b71244a05a42158400f7)
 
-### Select records using comparison operators on datetimes
 
-The comparison operators also work with date time values. Here's an example of selecting records that belong to a block after a certain date:
+## Querying Compound's Governance Intermediate
+
+In this section we will proceed with the Compound Governance example. The `contract_id`  is `0xc0da01a04c3f3e0be433606045bb7017a7323e38`.
+
+`Goal`: To find out how many votes were casted per proposal_id between block starting-block=11000000 and ending-block=12000000.
+
+1. We will work on log_events again. We already know shape of the data from the last exercise.
+
+2. After using the topic calculator we can find that `VoteCast` topic-hash is `0x877856338e13f63d0c36822ff0ef736b80934cd90574a3a5bc9262c39d217c46` 
+
+3. We will apply following `group`on the endpoints to get the 
 
 ```json
 ---
-header: Comparisons operators on datetimes
+header: votes casted per proposal_id between block starting-block=11000000 and ending-block=12000000
 ---
-{
-    "block_signed_at": {
-      "$gt": "2021-01-02"
-    }      
-}
+group={
+    "_id": {
+        "month": {
+            "$month": "block_signed_at"
+        },
+        "year": {
+            "$year": "block_signed_at"
+        },
+        "proposal_id": "decoded.params.1.value"
+    },
+    "vote_count": {
+                "$sum": 1
+            }
+    }
+
 ```
 
-## Access array elements
-
-### Dot notation to access an element at a particular index on an array
-
-You can use the dot notation to access an array by index. For example, you can access the second parameter of a decoded event:
-
-```json
----
-header: Access the second element of the params array and only return result if value is 120000
----
-{
-    "decoded.params.1.value": 120000      
-}
-```
+URL: [https://api.covalenthq.com/v1/1/events/topics/0x877856338e13f63d0c36822ff0ef736b80934cd90574a3a5bc9262c39d217c46/?ending-block=latest&sender-address=0xc0da01a04c3f3e0be433606045bb7017a7323e38&page-size=999999&group={%20%22_id%22:%20{%20%22month%22:%20{%20%22$month%22:%20%22block_signed_at%22%20},%20%22year%22:%20{%20%22$year%22:%20%22block_signed_at%22%20},%20%22proposal_id%22:%20%22decoded.params.1.value%22%20},%20%22vote_count%22:%20{%20%22$sum%22:%201%20}%20}](https://api.covalenthq.com/v1/1/events/topics/0x877856338e13f63d0c36822ff0ef736b80934cd90574a3a5bc9262c39d217c46/?ending-block=latest&sender-address=0xc0da01a04c3f3e0be433606045bb7017a7323e38&page-size=999999&key=ckey_66c94c405aae4cb38d94092f634&group={%20%22_id%22:%20{%20%22month%22:%20{%20%22$month%22:%20%22block_signed_at%22%20},%20%22year%22:%20{%20%22$year%22:%20%22block_signed_at%22%20},%20%22proposal_id%22:%20%22decoded.params.1.value%22%20},%20%22vote_count%22:%20{%20%22$sum%22:%201%20}%20})
