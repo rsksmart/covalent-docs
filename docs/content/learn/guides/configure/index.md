@@ -7,6 +7,6 @@ hideChildren: false
 
 import DocsGuidesConfigureOverview from "../../../../components/guides/docs-guides-configure"
 
-# Basics
+# Configure
 
 <DocsGuidesConfigureOverview/>
