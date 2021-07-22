@@ -1,6 +1,5 @@
 ---
 title: Template
-featuredImage: ../images/covalent-logo.png
 description: This doc list instructions for listing project at covalent
 hidden: True
 ---

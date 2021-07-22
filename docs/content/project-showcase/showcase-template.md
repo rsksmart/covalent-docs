@@ -1,6 +1,5 @@
 ---
 title: Template #this will be depicted in the navigation bar
-featuredImage: ../images/covalent-logo.png #path to your image in the folder
 description: This is our project. ## small description of your project
 hidden: True #change it to false
 #tags: Governance, Independent Projects  ## uncomment tags and include appropriate tags

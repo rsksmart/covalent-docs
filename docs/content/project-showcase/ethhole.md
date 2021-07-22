@@ -2,8 +2,13 @@
 title: EthHole.Link
 order: 1
 hidden: false
-featuredImage: ../images/project-showcase/eth-hole.png
+updated: 2021-05-27
 description: A dApp to monitor the token flow from ethereum to layer2 and it’s sidechains.
+author: test
+tags:
+  - Wallet
+  - OneMillionWallets
+  -  Hackathons
 ---
 
 ![EthHole Banner](../images/eth-hole.png)

@@ -4,7 +4,6 @@ order: 3
 hidden: false
 author: anadi2311
 updated: 2021-05-30
-featuredImage: ../images/coindefit-banner.png
 description: Know how much profit you would have made in a Uniswap pool
 tags: 
   - DeFi

@@ -1,9 +1,14 @@
 ---
 title: All chain
 order: 14
+updated: 2021-05-27
 hidden: false
-featuredImage: ../images/project-showcase/allchain-xyz.png
 description: Check data wallet all chains - real time
+author: test
+tags:
+  - Wallet
+  - OneMillionWallets
+  -  Hackathons
 ---
 
 ![All chain Banner](../images/allchain-xyz.png)

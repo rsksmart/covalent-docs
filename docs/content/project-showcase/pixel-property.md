@@ -2,8 +2,13 @@
 title: PixelProperty
 order: 12
 hidden: false
-featuredImage: ../images/project-showcase/pixel-property.png
+updated: 2021-05-27
 description: A fun and engaging app for artists and marketers to come together and enjoy.
+author: test
+tags:
+  - Wallet
+  - OneMillionWallets
+  -  Hackathons
 ---
 
 ![Pixel Property Banner](../images/pixel-property.png)

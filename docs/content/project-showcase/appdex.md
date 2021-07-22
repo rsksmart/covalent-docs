@@ -2,8 +2,13 @@
 title: AppDEX
 order: 13
 hidden: false
-featuredImage: ../images/appdex.png
+updated: 2021-05-27
 description: AppDEX is used to track and forecast market movements using real-time data and predictive indexes.
+author: test
+tags:
+  - Wallet
+  - OneMillionWallets
+  -  Hackathons
 ---
 
 ![AppDEX Banner](../images/appdex.png)
