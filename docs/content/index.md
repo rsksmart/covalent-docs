@@ -15,8 +15,11 @@ The unified Covalent API allows you to create entirely new applications or augme
 * [Read the API Docs](https://www.covalenthq.com/docs/api/)
 
 &nbsp;
-## Supported Networks
-Learn more about all the [blockchain networks](/networks) we have indexed and support. 
+## Supported Blockchains
+
+* Learn more about all the distinct [blockchains we have indexed and support.](/chains)
+
+* Or go deeper, and find out about the [runtimes powering these chains, their features, and how we support them](/runtimes).
 
 &nbsp;
 ## *Proof-of-Education* Campaigns
@@ -37,8 +40,10 @@ Our industry leading [developer tools](/tools) such as Primer are complementary 
 [Check out projects](/project-showcase) built by our ecosystem of community developers who continue to astonish us with their creativity in using the Covalent API to power their dApps!
 
 &nbsp;
-## Service Partners
-Covalent is pleased to partner with industry-leading [service providers](/service-partners) offering complementary services to help host, manage and expand our best-in-class API.
+## Our Network and Service Partners
+Covalent is pleased to partner with a number of [blockchain network providers](/network-partners), enabling them to launch with day-one analytics.
+
+Covalent is also pleased to partner with industry-leading [service providers](/service-partners) offering complementary services to help host, manage and expand our best-in-class API.
 
 &nbsp;
 ## Overview
