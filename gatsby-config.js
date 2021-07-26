@@ -192,5 +192,6 @@ module.exports = {
     // Consider enabling for PWA + offline functionality
     // https://gatsby.dev/offline
     // 'gatsby-plugin-offline',
+    `gatsby-plugin-meta-redirect` // make sure to put last in the array
   ],
 }

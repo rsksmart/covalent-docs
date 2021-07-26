@@ -51,7 +51,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 const path = require("path")
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions
+  const { createPage, createRedirect } = actions
 
   const result = await graphql(`
     query {
@@ -108,6 +108,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: node
     })
   })
+
+  createRedirect({ fromPath: '/networks', toPath: '/chains' })
+  createRedirect({ fromPath: '/networks/ethereum', toPath: '/runtimes/ethereum' })
+  createRedirect({ fromPath: '/networks/avalanche', toPath: '/chains/avalanche-mainnet' })
+  createRedirect({ fromPath: '/networks/bsc', toPath: '/chains/bsc-mainnet' })
+  createRedirect({ fromPath: '/networks/matic', toPath: '/chains/matic-mainnet' })
+  createRedirect({ fromPath: '/networks/rsk', toPath: '/chains/rsk-mainnet' })
+  createRedirect({ fromPath: '/networks/arbitrum', toPath: '/chains/arbitrum-mainnet' })
+  createRedirect({ fromPath: '/networks/palm', toPath: '/chains/palm-mainnet' })
+  createRedirect({ fromPath: '/networks/moonbeam', toPath: '/chains/moonbeam-moonbase-alpha' })
+
 }
 
 // We implement type definitions in order to prevent
