@@ -1,6 +1,6 @@
 ---
 title: Glossary
-order: 5
+order: 50
 hidden: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Alpha Alarm
-order: 6
+order: 60
 hidden: false
 ---
 

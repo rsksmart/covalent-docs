@@ -1,14 +1,14 @@
 ---
-title: RSK indexing & querying data API
+title: RSK Runtime
 order: 7
 hidden: false
 featuredImage: ./images/RSK.png
-description: Support for RSK network
+description: Support for RSK-based blockchains
 ---
 
 ![Recipe logo](./images/RSK.png)
 
-# RSK Network
+# The RSK Runtime
 
 ## Introduction
 

@@ -1,6 +1,6 @@
 ---
 title: Campaigns
-order: 2
+order: 20
 ---
 
 # *Proof-of-Education* Campaigns

@@ -1,14 +1,14 @@
 ---
-title: Arbitrum indexing & querying data API
+title: Arbitrum Runtime
 order: 8
 hidden: false
 featuredImage: ./images/Arbitrum.png
-description: Support for Arbitrum network
+description: Support for Arbitrum-based blockchains
 ---
 
 ![Recipe logo](./images/Arbitrum.png)
 
-# Arbitrum Network
+# The Arbitrum Runtime
 
 ## Introduction
 

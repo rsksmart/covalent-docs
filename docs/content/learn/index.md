@@ -1,6 +1,6 @@
 ---
 title: Alchemist Cookbook
-order: 4
+order: 40
 hidden: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Quick Start
-order: 0
+order: 10
 ---
 
 # Get started with Covalent!

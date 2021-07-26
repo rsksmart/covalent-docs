@@ -1,5 +1,5 @@
 ---
-title: Polygon/Matic indexing & querying data API
+title: Matic (Polygon) Runtime
 order: 2
 hidden: false
 featuredImage: ./images/Matic.png
@@ -8,11 +8,13 @@ description: Working together to bring massive scale to Ethereum
 
 ![Matic network banner](./images/Matic.png)
 
-# Polygon / Matic Network
+# The Matic Runtime
 
 ## Introduction
 
-The [Polygon / Matic Network](https://matic.network/) brings massive scale to Ethereum using an adapted version of Plasma with PoS based side chains that provides a solution for faster and extremely low-cost transactions with finality on the main chain. The Matic system ensures liveliness using PoS checkpoints which are pushed to the Ethereum mainchain. This enables a single Matic sidechain to theoretically achieve `2^16` transactions per block, and possibly millions of transactions on multiple chains in the future.
+The [Polygon Network](https://polygon.technology/) brings massive scale to Ethereum using an adapted version of Plasma with PoS-based sidechains, providing a solution for faster and extremely low-cost transactions with finality on the main chain.
+
+The Matic sidechain runtime ensures liveliness using PoS checkpoints which are pushed to the Ethereum mainchain. This enables a single Matic sidechain to theoretically achieve `2^16` transactions per block, and possibly millions of transactions on multiple chains in the future.
 
 
 

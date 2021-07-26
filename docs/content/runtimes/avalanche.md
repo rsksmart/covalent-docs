@@ -1,14 +1,14 @@
 ---
-title: Avalanche indexing & querying data API
+title: Avalanche Runtime
 order: 3
 hidden: false
 featuredImage: ./images/Avalanche.png
-description: Support for both Avalanche and Fuji C-Chain networks
+description: C-Chain support for Avalanche-based blockchains
 ---
 
 ![Recipe logo](./images/Avalanche.png)
 
-# Avalanche Network
+# The Avalanche Runtime
 
 ## Introduction
 

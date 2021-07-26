@@ -1,6 +1,6 @@
 ---
 title: Changelog
-order: 9
+order: 90
 ---
 
 # API Changelog

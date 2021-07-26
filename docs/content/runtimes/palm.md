@@ -1,14 +1,14 @@
 ---
-title: Palm indexing & querying data API
+title: Palm Runtime
 order: 9
 hidden: false
 featuredImage: ./images/Palm.png
-description: Support for the Palm NFTs network
+description: Support for Palm-based NFT blockchains
 ---
 
 ![Palm banner](./images/Palm.png)
 
-# Palm
+# The Palm Runtime
 
 ## Introduction
 

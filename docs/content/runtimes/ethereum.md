@@ -1,5 +1,5 @@
 ---
-title: Ethereum indexing & querying data API
+title: Ethereum Runtime
 order: 1
 hidden: false
 featuredImage: ./images/Ethereum.png
@@ -8,7 +8,7 @@ description: Fully indexed and providing billions of rows of data at your finger
 
 ![Ethereum network banner](./images/Ethereum.png)
 
-# Ethereum
+# The Ethereum Runtime
 
 ## Introduction
 

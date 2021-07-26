@@ -1,33 +1,33 @@
 ---
-title: Binance Smart Chain indexing & querying data API
-order: 4
+title: BSC Mainnet
+order: 4001
 hidden: false
 featuredImage: ./images/Binance.png
-description: Supporting a faster, cheaper, EVM-compatible network
 ---
 
-![BSC network banner](./images/Binance.png)
+![Binance banner](./images/Binance.png)
 
-# Binance Smart Chain
+# Binance Smart Chain (BSC) Mainnet
 
 ## Introduction
 
-[Binance Smart Chain](https://www.binance.org/en/smartChain) (BSC) is best described as a blockchain that runs in parallel to the Binance Chain. Unlike Binance Chain, BSC boasts smart contract functionality and compatibility with the Ethereum Virtual Machine (EVM). The design goal here was to leave the high throughput of Binance Chain intact while introducing smart contracts into its ecosystem.
+**Binance Smart Chain** ([project homepage](https://www.binance.org/en/smartChain)) is an Ethereum-based blockchain network, slightly customized in its consensus mechanism to enable fast finality.
+
+Binance Smart Chain (or "BSC") is best described as a blockchain that runs in parallel to the Binance Chain. Unlike Binance Chain, BSC boasts smart-contract functionality and compatibility with the Ethereum Virtual Machine (EVM). The design goal here was to leave the high throughput of Binance Chain intact while introducing smart contracts into its ecosystem.
 
 <!-- ### Overview Video
 <YouTube id="kdwfIrRJ4DE"/> -->
-
 
 ### Quick facts
 
 <TableWrap>
 
-|Property|Value|
-|---|---|
-|BSC Mainnet chainId|`56`|
-|BSC Testnet chainId|`97`|
-|BSC Blockchain Explorer|https://bscscan.com/|
-|Block time|~5 seconds|
+| Property        | Value                |
+| --------------- | -------------------- |
+| Identifier      | `bsc-mainnet`        |
+| chainID         | `56`                 |
+| Explorer URL    | https://bscscan.com/ |
+| Mean block time | 5 seconds            |
 
 </TableWrap>
 
@@ -39,7 +39,7 @@ description: Supporting a faster, cheaper, EVM-compatible network
 
 <Aside>
 
-All [__Class A__](https://www.covalenthq.com/docs/api/#tag--Class-A) endpoints are supported for the BSC mainnet. You can query either network via the unified API by changing the `chainId`.
+All [__Class A__](https://www.covalenthq.com/docs/api/#tag--Class-A) endpoints are supported for BSC Mainnet. You can query this blockchain via the unified API by changing the `chainId`.
 
 </Aside>
 
@@ -85,7 +85,7 @@ Covalent maintains an on-chain real-time mapping of token addresses between Ethe
 
 Some example of mapped tokens:
 
-|Token|Ethereum mainnet|BSC mainnet|
+|Token|Ethereum Mainnet|BSC Mainnet|
 |---|---|---|
 |USDT|0xdac17f958d2ee523a2206206994597c13d831ec7|0x55d398326f99059ff775485246999027b3197955|
 |BAND|0xba11d00c5f74255f56a5e366f4f77f5a186d7f55|0xad6caeb32cd2c308980a548bd0bc5aa4306c6c18|
@@ -93,7 +93,7 @@ Some example of mapped tokens:
 
 ### Token prices
 
-For tokens that have a mapping back to Ethereum mainnet, Covalent is able to return the mapped prices.
+For tokens that have a mapping back to Ethereum Mainnet, Covalent is able to return the mapped prices.
 
 
 ### Infrastructure Providers

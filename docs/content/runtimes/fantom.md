@@ -1,14 +1,14 @@
 ---
-title: Fantom indexing & querying data API
+title: Fantom Runtime
 order: 5
 hidden: false
 featuredImage: ./images/Fantom.png
-description: Support for Fantom network
+description: Support for Fantom-based blockchains
 ---
 
 ![Recipe logo](./images/Fantom.png)
 
-# Fantom Network
+# The Fantom Runtime
 
 ## Introduction
 
@@ -26,7 +26,7 @@ Fantom code is completely open source. Anyone can read it, check on the progress
 | --------------------- | -------------------- |
 | Network name          | Fantom Opera         |
 | Mainnet chainId       | `250`                |
-| Testnet chainId       | `4002`                |
+| Testnet chainId       | `4002`               |
 | Famtom Block Explorer | https://ftmscan.com/ |
 | Block time            | ~2 seconds           |
 
