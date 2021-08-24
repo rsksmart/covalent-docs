@@ -774,6 +774,67 @@ Example: `{ $project: { word: {$literal: true}} }`  newly created field `word` n
 
 </Aside>
 
+<b>New Array Fields</b>
+
+
+With `newly created` fields, we are allowed to create new array fields and set it to the value of the `newly created` fields. If the expression is evaluated to `non-existent` field, the array will substitute the field with a `null`.
+
+<Aside>
+
+Example: `{ $project: { myArray: [ "$block_signed_at", "$decoded.params.0.value", "$randomField" ] } }`
+
+</Aside>
+
+Output: 
+
+```json
+{
+    "myArray": [
+        7575413,
+        "305610711311314417978750",
+        null
+    ],
+
+},
+```
+
+<b>New JSON Object Fields</b>
+
+
+We are allowed to set the value of `newly created` fields to a JSON object, so we can store more fields under one object.
+
+Example:
+
+```json
+
+{
+    "$project": {
+        "newField": {
+            "multipledField": { "$multiply": [ 4, 5, 8] },
+            "divideField": { "$divide": [ 50, 2 ] },
+            "powField": { "$pow": [ 6, 3] },
+            "subField": { "$subtract": [ 7, 3] },
+            "condField": { "$cond": [ {"$eq": ["tx_hash", 200]}, 100, 500]}
+        }
+    }
+}
+```
+
+Output:
+
+```json
+{
+    "newField": {
+        "multipledField": 160,
+        "divideField": 25,
+        "powField": 216,
+        "subField": 4,
+        "condField": 500,
+    }
+
+},
+```
+
 
 
 
