@@ -74,7 +74,7 @@ _Comparison by date objects is also available._
 |$max|Determines maximum of a specified value.|
 |$min|Determines minimum of a specified value.|
 |$subtract|Subtracts two numbers, or two dates, or date and number in milliseconds.| 
-|$add|Add numbers together or add a date to numbers together.|  
+|$add|Add numbers together or add a date and numbers together.|  
 |$divide|Divides two numbers and returns the quotient.|                   
 |$multiply|Multiplies numbers together and returns the result.| 
 |$toInt|Converts a value to an integer.|  
@@ -428,13 +428,13 @@ primer=
 
 ## Notable Aggregations Operators
 
-##4.0 | Example usages of mathematical operators ($multiply, $divide, $subtract)
+##4.0 | Example usages of mathematical operators ($multiply, $divide, $subtract, $add)
 
-Here are some examples on how to perform simple operations between numbers with `$multiple`, `$divide` and `$subtract`.
+Here are some examples on how to perform simple operations between numbers with `$multiple`, `$divide`, `$subtract` and `$add`.
 
-Both `$subtract` and `$divide` can only take in two inputs as arguments, while `$multiply` can take in many inputs into an array.
+Both `$subtract` and `$divide` can only take in two inputs as arguments, while `$multiply` and `$add` can take in many inputs into an array.
 
-Field name inputs must hold a number type and not string type, whille `$subtract` can accept both string type and number type, but the string type must only be date inputs.
+Field name inputs must hold a number type and not string type, while `$subtract` and `$add` can accept both string type and number type, but the string type must only be date inputs.
 
 group=
 ```json
@@ -454,11 +454,17 @@ group=
     },
     "differenceBetweenNumbers": {
         "$subtract": [10, 2]
-    }
+    },
+    "addingBetweenDates": {
+        "$add": ["2021-08-03T21:51:36Z", 100000]
+    },
+    "addingBetweenNumbers": {
+        "$add": [10, 2, 3, 23]
+    },
 }
 ```
 
-[https://api.covalenthq.com/v1/1/events/address/0xcd4EC7b66fbc029C116BA9Ffb3e59351c20B5B06/?ending-block=latest&key=ckey_key&group={"_id":"block_signed_at","product":{"$multiply":[10,100,15]},"productWithFields":{"$multiply":["block_height","log_offset","tx_offset"]},"quotient":{"$divide":["tx_offset",2]},"differenceBetweenDates":{"$subtract":["2021-08-03T21:51:36Z","2021-07-03T06:23:43Z"]},"differenceBetweenNumbers":{"$subtract":[10,2]}}](https://api.covalenthq.com/v1/1/events/address/0xcd4EC7b66fbc029C116BA9Ffb3e59351c20B5B06/?ending-block=latest&key=ckey_key&group={"_id":"block_signed_at","product":{"$multiply":[10,100,15]},"productWithFields":{"$multiply":["block_height","log_offset","tx_offset"]},"quotient":{"$divide":["tx_offset",2]},"differenceBetweenDates":{"$subtract":["2021-08-03T21:51:36Z","2021-07-03T06:23:43Z"]},"differenceBetweenNumbers":{"$subtract":[10,2]}})
+[https://api.covalenthq.com/v1/1/events/address/0xcd4EC7b66fbc029C116BA9Ffb3e59351c20B5B06/?ending-block=latest&key=ckey_key&group={"_id":"block_signed_at","product":{"$multiply":[10,100,15]},"productWithFields":{"$multiply":["block_height","log_offset","tx_offset"]},"quotient":{"$divide":["tx_offset",2]},"differenceBetweenDates":{"$subtract":["2021-08-03T21:51:36Z","2021-07-03T06:23:43Z"]},"differenceBetweenNumbers":{"$subtract":[10,2]},"addingBetweenDates":{"$add":["2021-08-03T21:51:36Z",100000]},"addingBetweenNumbers":{"$add":[10,2,3,23]}}](https://api.covalenthq.com/v1/1/events/address/0xcd4EC7b66fbc029C116BA9Ffb3e59351c20B5B06/?ending-block=latest&key=ckey_key&group={"_id":"block_signed_at","product":{"$multiply":[10,100,15]},"productWithFields":{"$multiply":["block_height","log_offset","tx_offset"]},"quotient":{"$divide":["tx_offset",2]},"differenceBetweenDates":{"$subtract":["2021-08-03T21:51:36Z","2021-07-03T06:23:43Z"]},"differenceBetweenNumbers":{"$subtract":[10,2]},"addingBetweenDates":{"$add":["2021-08-03T21:51:36Z",100000]},"addingBetweenNumbers":{"$add":[10,2,3,23]}})
 
 ##4.1| Example usages of _$pow_
 
@@ -728,6 +734,28 @@ Including existing fields by setting `1` or `true` next to the specified field. 
 &lt;`newFieldName`&gt;: &lt;`expression`&gt; (Set new field to a new value)
 
 </Aside>
+
+
+Let's try to project the same fields that we removed earlier; `tx_offset`, `log_offset`, `decoded.params.0`, `decoded.name`, `block_signed_at`, `block_height`, `tx_hash`, `raw_log_topics`. 
+
+primer=
+```json
+{
+	"$project": {
+		"tx_offset": 1,
+		"log_offset": 1,
+		"decoded.params.0": 1,
+		"decoded.name": 1,
+		"block_signed_at": 1,
+		"block_height": 1,
+		"tx_hash": 1,
+		"raw_log_topics": 1
+	}
+}
+
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer={"$project":{"tx_offset":1,"log_offset":1,"decoded.params.0":1,"decoded.name":1,"block_signed_at":1,"block_height":1,"tx_hash":1,"raw_log_topics":1}}](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer={"$project":{"tx_offset":1,"log_offset":1,"decoded.params.0":1,"decoded.name":1,"block_signed_at":1,"block_height":1,"tx_hash":1,"raw_log_topics":1}})
 
 We can choose to `include` fields and or add new fields at the same time. This is all part of `inclusion`. 
 
