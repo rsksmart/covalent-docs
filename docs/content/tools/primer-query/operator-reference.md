@@ -10,6 +10,7 @@ hidden: true
 |primer|Records enter a multi-stage pipeline that transforms the records into aggregated results. Supports `$group` and `Aggregation` operators.|
 |match|Filters the records to pass only the documents that match the specified condition(s).|
 |group|Groups input elements by the specified _id expression and for each distinct grouping, outputs an element. Grouping by _date_ operators is also possible.|
+|project|Display or hide existing fields, create new fields, setting and resetting of new fields or existing fields.|
 |sort|Sorts all input records and returns them in ascending or descending sorted order.|
 |skip|Skips over the specified number of records|
 |limit|Limits the number of records.|
@@ -56,7 +57,15 @@ _Comparison by date objects is also available._
 |$exists|Matches documents that have the specified field.|
 
 
-##2.4 | Aggregation
+##2.4 | Evaluation
+
+
+|Name|Description|
+|---|---|
+|$expr|Evaluates boolean aggregation expressions for additional filtering of documents within `match`.|
+
+
+##2.5 | Aggregation
 
 |Name|Description|
 |---|---|
@@ -65,21 +74,29 @@ _Comparison by date objects is also available._
 |$max|Determines maximum of a specified value.|
 |$min|Determines minimum of a specified value.|
 |$subtract|Subtracts two numbers, or two dates, or date and number in milliseconds.| 
+|$add|Add numbers together or add a date to numbers together.|  
 |$divide|Divides two numbers and returns the quotient.|                   
 |$multiply|Multiplies numbers together and returns the result.| 
 |$toInt|Converts a value to an integer.|  
 |$concat|Concatenates strings together and returns the concatentated string as a result.| 
-|$pow|Raises a number to an exponent and returns the result.|                  
+|$pow|Raises a number to an exponent and returns the result.|
+|$lt|Returns `true` if the first value is less than the second value else `false`.|  
+|$lte|Returns `true` if the first value is less than or equal to the second value else `false`.| 
+|$gt|Returns `true` if the first value is greater than the second value else `false`.| 
+|$gte|Returns `true` if the first value is greater than or equal to the second value else `false`.|   
+|$eq|Returns `true` if values are equal else `false`.| 
+|$cond|Evaluates a boolean expression to determine what specific expression will be returned.|                
 
 
-##2.5 | Projection
+##2.6 | Projection
 
 |Name|Description|
 |---|---|
 |$elemMatch|Projects the first element in an array that matches the specified $elemMatch condition.|
 |$group|Groups input elements by the specified _id expression and for each distinct grouping, outputs an element.|
+|$project|Display or hide existing fields, create new fields, setting and resetting of new fields or existing fields.|
 
-##2.6 | Date Aggregation (Available within ```$group```)
+##2.7 | Date Aggregation (Available within ```$group```)
 
 |Name|Description|
 |---|---|
@@ -89,17 +106,18 @@ _Comparison by date objects is also available._
 |$hourOfDay|Returns the hour of a day as a number between 0 and 23.|
 |$minuteOfDay|Returns the minute of a day as a number between 0 and 1439.|
 
-##2.7 | Aggregation (Available within the ```primer pipeline```)
+##2.8 | Aggregation (Available within the ```primer pipeline```)
 
 |Name|Description|
 |---|---|
 |$match|Filters the records to pass only the documents that match the specified condition(s) to the next pipeline stage.|
 |$group|Groups input elements by the specified _id expression and for each distinct grouping, outputs an element.|
+|$project|Display or hide existing fields, create new fields, setting and resetting of new fields or existing fields.|
 |$sort|Sorts all input records and returns them in ascending or descending sorted order.|
 |$limit|Limits the number of records passed to the next stage in the pipeline.|
 |$skip|Skips over the specified number of records and passes the remaining records to the next stage in the pipeline.|
 
-##2.8 | Accessing Array indexes and nested objects using _dot_ (.) notation
+##2.9 | Accessing Array indexes and nested objects using _dot_ (.) notation
 
 Access elements within nested objects and arrays.
 
@@ -111,7 +129,7 @@ eg: ```log_events.3.decoded.param.3.value``` will access the value of the fourth
 
 We have the following top-level query parameters.
 
-```primer, match, group, sort, skip, and limit```
+```primer, match, group, project, sort, skip, and limit```
 
 Primer is currently available on these endpoints:
 
@@ -408,7 +426,7 @@ primer=
 
 [https://api.covalenthq.com/v1/1/address/0xc0da01a04c3f3e0be433606045bb7017a7323e38/transactions_v2/?page-number=0&page-size=1000&primer=[{"$match":{"$and":[{"log_events.0.decoded.name":"VoteCast"},{"log_events.0.decoded.params.1.value":"41"},{"log_events.0.decoded.params.2.value":true}]}},{"$group":{"_id":{"month":{"$month":"block_signed_at"},"day":{"$dayOfMonth":"block_signed_at"},"year":{"$year":"block_signed_at"},"hour":{"$hourOfDay":"block_signed_at"}},"vote_count":{"$sum":1},"sum_of_votes":{"$sum":"log_events.0.decoded.params.3.value"}}}]](https://api.covalenthq.com/v1/1/address/0xc0da01a04c3f3e0be433606045bb7017a7323e38/transactions_v2/?page-number=0&page-size=1000&primer=[{"$match":{"$and":[{"log_events.0.decoded.name":"VoteCast"},{"log_events.0.decoded.params.1.value":"41"},{"log_events.0.decoded.params.2.value":true}]}},{"$group":{"_id":{"month":{"$month":"block_signed_at"},"day":{"$dayOfMonth":"block_signed_at"},"year":{"$year":"block_signed_at"},"hour":{"$hourOfDay":"block_signed_at"}},"vote_count":{"$sum":1},"sum_of_votes":{"$sum":"log_events.0.decoded.params.3.value"}}}])
 
-## Notable Aggregations Usages
+## Notable Aggregations Operators
 
 ##4.0 | Example usages of mathematical operators ($multiply, $divide, $subtract)
 
@@ -519,6 +537,259 @@ primer=
 ```
 
 [https://api.covalenthq.com/v1/56/address/0x2d923e1e5992bc7a56fd090f23e3e687997af60a/transactions_v2/?key=ckey_e0...&page-number=2&page-size=2&primer=[{"$match":{"$toInt":"log_events.0.raw_log_topics.2"}}]](https://api.covalenthq.com/v1/56/address/0x2d923e1e5992bc7a56fd090f23e3e687997af60a/transactions_v2/?key=ckey_e0...&page-number=2&page-size=2&primer=[{"$match":{"$toInt":"log_events.0.raw_log_topics.2"}}])
+
+
+### 4.4| Aggregation Comparison Operators
+
+##4.4.1| $lt
+
+The `$lt` comparison operator takes in an array input of two expressions. The expressions must either evaluate to a `number` or a `string date`. The inputs must both either be two `numbers` or two `string dates`.
+
+In this example, we will use `$expr` to help filter out and return all the records back with `tx_offset` being less than `300`.
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$lt": ["tx_offset", 300]}
+        }
+    }
+]
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$lt:[tx_offset,300]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$lt:[tx_offset,300]}}}])
+
+
+##4.4.2| $lte
+
+The `$lte` comparison operator takes in an array input of two expressions. The expressions must either evaluate to a `number` or a `string date`. The inputs must both either be two `numbers` or two `strings dates`.
+
+In this example, we will use `$expr` to help filter out and return all the records back with `tx_offset` being less than or equal to `403`.
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$lte": ["tx_offset", 403]}
+        }
+    }
+]
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$lte:[tx_offset,403]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$lte:[tx_offset,403]}}}])
+
+
+##4.4.3| $gt
+
+The `$gt` comparison operator takes in an array input of two expressions. The expressions must either evaluate to a `number` or a `string date`. The inputs must both either be two `numbers` or two `date strings`.
+
+In this example, we will use `$expr` to help filter out and return all the records back with `tx_offset` being greater than `300`.
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$gt": ["tx_offset", 300]}
+        }
+    }
+]
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gt:[tx_offset,300]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gt:[tx_offset,300]}}}])
+
+
+##4.4.4| $gte
+
+The `$gte` comparison operator takes in an array input of two expressions. The expressions must either evaluate to a `number` or a `string date`. The inputs must both either be two `numbers` or two `date strings`.
+
+In this example, we will use `$expr` to help filter out and return all the records back with `tx_offset` being greater than or equal to `95`.
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$gte": ["tx_offset", 95]}
+        }
+    }
+]
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gte:[tx_offset,95]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gte:[tx_offset,95]}}}])
+
+
+##4.4.5| $eq
+
+The `$eq` comparison operator takes in an array input of two expressions. The expressions can either evaluate to a `number`, `string date`, `strings`, or `boolean`.
+
+In this example, we will use `$expr` to help filter out and return all the records back with `block_signed_at` equal to `2021-05-20T14:33:38Z`.
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$eq": ["block_signed_at", "2021-05-20T14:33:38Z"]}
+        }
+    }
+]
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$eq:[block_signed_at,"2021-05-20T14:33:38Z"]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$eq:[block_signed_at,"2021-05-20T14:33:38Z"]}}}])
+
+
+### 4.5| Evaluating Expressions with _$cond_
+
+The `$cond` aggregation operator takes in an array input of three expressions (if-then-else syntax). The first expression uses one of the five `comparison operators ($lt, $lte, $gt, $gte, $eq)` in `4.4` which evaluates to a `boolean`. The other two expressions needs to evaluate to a `primitive type` (ie. numbers, string, boolean). If the first expression evaluates to `true`, then the second expression is returned, else the third expression is returned.
+
+In this example, we will use `$expr` to help filter out and return all the records back if `log_offset` less than `200` is `true`, then the expression evaluates to `100`. `tx_offset` will then check if it is greater than `100`. Otherwise, it will check to see if `tx_offset` is greater than `300` if the `$cond` returns `false`.
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$gt": ["tx_offset", {"$cond": [{"$lt": ["log_offset", 200]}, 100, 300]}]}
+        }
+    }
+]
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gt:[tx_offset,{$cond:[{$lt:[log_offset,200]},100,300]}]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gt:[tx_offset,{$cond:[{$lt:[log_offset,200]},100,300]}]}}}])
+
+
+## Filtering Documents with _$expr_
+
+The `$expr` operator takes in an expression as input from the five comparison operators in `4.4 ($lt, $lte, $gt, $gte, $eq)`. The five comparison operators will return a boolean of either `true` or `false`. If `$expr` evaluates to `true`, then the record is returned. If it is `false`, the record is not returned. 
+
+`$expr` is used as an additional filtering tool in `match`. We can also use `$cond` and other aggregation operators to help filter our document. 
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$gte": ["log_offset", {"$cond": [{"$gt": ["tx_offset", 200]}, {"$multiply": [50, 3]}, {"$divide": [250, 2]}]}]}
+        }
+    }
+]
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gte:[log_offset,{$cond:[{$gt:[tx_offset,200]},{$multiply:[50,3]},{$divide:[250,2]}]}]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gte:[log_offset,{$cond:[{$gt:[tx_offset,200]},{$multiply:[50,3]},{$divide:[250,2]}]}]}}}])
+
+## Using _$project_
+
+In `$project`, we can allow the operator to `exclude` existing fields or `include` existing and or new fields. This is separated into `inclusion` and `exclusion`. Specifying both `inclusion` and `exclusion` at the same time is not allowed.
+
+### Exclusion
+
+<Aside>
+
+Excluding existing fields by setting `0` or `false` next to the specified field.
+
+&lt;`fieldName`&gt;: &lt;`0 or false`&gt;
+
+</Aside>
+
+Let's try to remove some of the fields; `tx_offset`, `log_offset`, `decoded.params.0`, `decoded.name`, `block_signed_at`, `block_height`, `tx_hash`, `raw_log_topics`. 
+
+primer=
+```json
+{
+	"$project": {
+		"tx_offset": 0,
+		"log_offset": 0,
+		"decoded.params.0": 0,
+		"decoded.name": 0,
+		"block_signed_at": 0,
+		"block_height": 0,
+		"tx_hash": 0,
+		"raw_log_topics": 0
+	}
+}
+
+```
+
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer={"$project":{"tx_offset":0,"log_offset":0,"decoded.params.0":0,"decoded.name":0,"block_signed_at":0,"block_height":0,"tx_hash":0,"raw_log_topics":0}}](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer={"$project":{"tx_offset":0,"log_offset":0,"decoded.params.0":0,"decoded.name":0,"block_signed_at":0,"block_height":0,"tx_hash":0,"raw_log_topics":0}})
+
+### Inclusion
+
+<Aside>
+
+Including existing fields by setting `1` or `true` next to the specified field. Also you can create new fields. 
+
+&lt;`fieldName`&gt;: &lt;`1 or true`&gt; (Non-zero integers are also treated as true)
+
+&lt;`fieldName`&gt;:  &lt;`expression`&gt; (Resets field to a primitive type or hold the value of another field)
+
+&lt;`newFieldName`&gt;: &lt;`expression`&gt; (Set new field to a new value)
+
+</Aside>
+
+We can choose to `include` fields and or add new fields at the same time. This is all part of `inclusion`. 
+
+<Aside>
+
+<b>Note</b>: Path collisons can occur if users enter both an embedded document and a field within that embedded document in the same projection.
+
+Example: `{ $project: { "decoded.params: 1, "decoded.params.0.value": 1 } }`  (order does not matter).
+
+</Aside>
+
+Let's take a look at how to perform some projections.
+
+<b>$literal</b>
+
+
+If we wanted to set an existing field to a number or a boolean without it being considered as an `inclusion` value, we can use the `$literal` operator to set the expression to a literal. 
+
+<Aside>
+
+Example: `{ $project: { block_height: {$literal: 1}} }` will set `block_height` to `1` instead of showing its value.
+
+</Aside>
+
+We can set a new value to either an `existing` field or a `newly created` field.
+
+<b>Field Rename</b>
+
+<Aside>
+
+Example: `{ $project: { tx_hash: $decoded.params.0.name} }`  `tx_hash` now holds the value of `decoded.params.0.name`.
+
+Example: `{ $project: { new_field: $block_height} }` newly created field `new_field` now holds the value of `block_height`.
+
+</Aside>
+
+<b>Resetting Field Value</b>
+
+<Aside>
+
+Example: `{ $project: { tx_hash: "hello"} }`  `tx_hash` now holds the word `hello`.
+
+Example: `{ $project: { word: {$literal: true}} }`  newly created field `word` now holds the boolean `true`.
+
+</Aside>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
