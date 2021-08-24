@@ -426,7 +426,7 @@ primer=
 
 [https://api.covalenthq.com/v1/1/address/0xc0da01a04c3f3e0be433606045bb7017a7323e38/transactions_v2/?page-number=0&page-size=1000&primer=[{"$match":{"$and":[{"log_events.0.decoded.name":"VoteCast"},{"log_events.0.decoded.params.1.value":"41"},{"log_events.0.decoded.params.2.value":true}]}},{"$group":{"_id":{"month":{"$month":"block_signed_at"},"day":{"$dayOfMonth":"block_signed_at"},"year":{"$year":"block_signed_at"},"hour":{"$hourOfDay":"block_signed_at"}},"vote_count":{"$sum":1},"sum_of_votes":{"$sum":"log_events.0.decoded.params.3.value"}}}]](https://api.covalenthq.com/v1/1/address/0xc0da01a04c3f3e0be433606045bb7017a7323e38/transactions_v2/?page-number=0&page-size=1000&primer=[{"$match":{"$and":[{"log_events.0.decoded.name":"VoteCast"},{"log_events.0.decoded.params.1.value":"41"},{"log_events.0.decoded.params.2.value":true}]}},{"$group":{"_id":{"month":{"$month":"block_signed_at"},"day":{"$dayOfMonth":"block_signed_at"},"year":{"$year":"block_signed_at"},"hour":{"$hourOfDay":"block_signed_at"}},"vote_count":{"$sum":1},"sum_of_votes":{"$sum":"log_events.0.decoded.params.3.value"}}}])
 
-## Notable Aggregations Operators
+## Notable Aggregation Operators
 
 ##4.0 | Example usages of mathematical operators ($multiply, $divide, $subtract, $add)
 
