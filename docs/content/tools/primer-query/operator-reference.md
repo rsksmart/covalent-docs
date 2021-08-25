@@ -821,7 +821,7 @@ Example: `{ $project: { word: {$literal: true}} }`  newly created field `word` n
 <b>New Array Fields</b>
 
 
-With `newly created` fields, we are allowed to create new array fields and set it to the value of the `newly created` fields. If the expression is evaluated to `non-existent` field, the array will substitute the field with a `null`.
+With `newly created` fields, we are allowed to create new array fields that can project multiple fields inside the array. If the expression inside the array is evaluated to a `non-existent` field, the array will substitute that field with a `null`.
 
 <Aside>
 
@@ -876,5 +876,5 @@ Output:
         "condField": 500,
     }
 
-},
+}
 ```
