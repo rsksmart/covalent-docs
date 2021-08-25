@@ -671,7 +671,23 @@ primer=
 
 The `$expr` operator takes in an expression as input from the five comparison operators in `4.4 ($lt, $lte, $gt, $gte, $eq)`. The five comparison operators will return a boolean of either `true` or `false`. If `$expr` evaluates to `true`, then the record is returned. If it is `false`, the record is not returned. 
 
-`$expr` is used as an additional filtering tool in `match`. We can also use `$cond` and other aggregation operators to help filter our document. 
+`$expr` is used as an additional filtering tool in `match`. For example, we can display records where `tx_offset` is greater than `200`.
+
+primer=
+```json
+[
+    {
+        "$match": {
+            "$expr": {"$gt": ["tx_offset", 200]}
+        }
+    }
+]
+```
+[https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gt:[tx_offset,200]}}}]](https://api.covalenthq.com/v1/56/events/topics/0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1/?starting-block=7575413&ending-block=7575951&sender-address=0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16&page-size=5&key=ckey_c&primer=[{$match:{$expr:{$gt:[tx_offset,200]}}}])
+
+
+
+ We can also use `$cond` and other aggregation operators to help filter our document. 
 
 primer=
 ```json
