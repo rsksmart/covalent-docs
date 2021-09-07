@@ -54,11 +54,10 @@ In most of the cases, we have noticed that clients don't actually need higher co
 Following are some steps we strictly recommend before requesting higher concurrency to optimize code on client side:
 
 1. Create a queue for the requests you are submitting to us.
-2. Have N worker threads pull requests from that queue and synchronously submit them, only taking another request from the queue when the previous one completes.
-3. Tweak the concurrency-level N; at a certain level, you should see no 429s or socket hangups
-given the limit rules in our middleware, the ideal N is currently ~24, but this could be changed at any time to protect our architecture from DoS attacks, so please verify this and find the optimal N for yourself (or write code that dynamically lowers N upon receiving a 429 error.
+2. Have `N` worker threads pull requests from that queue and synchronously submit them, only taking another request from the queue when the previous one completes.
+3. Tweak the concurrency-level `N` value. At a certain level, you should not see any `429` errors or socket hangups given the limit rules in our middleware. The ideal `N` is currently ~`24`, but this could be changed at any time to protect our architecture from DoS attacks. Please verify and find the optimal `N` for yourself (or write code that dynamically lowers `N` incrementally upon receiving a 429 error).
 
-If you still face concurrency issues, fill this [TypeForm](https://covalenthq.typeform.com/to/husUVmhA). 
+If you still face concurrency issues, please fill out this [TypeForm](https://covalenthq.typeform.com/to/husUVmhA). 
 
 
 &nbsp;
