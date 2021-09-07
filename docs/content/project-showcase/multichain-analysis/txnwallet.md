@@ -40,7 +40,7 @@ The Covalent API was used for the retrieval of several pieces of key information
 
 &nbsp;
 ### Event
-The project was built at [EthGlobal - HackFS 2021](https://www.covalenthq.com/blog/hackfs-winners-announcment/)
+The project was built at [[#OneMillionWallets - Fantom 2021](https://www.covalenthq.com/blog/omw-fantom-winners/)
 
 &nbsp;
 ### Developers
