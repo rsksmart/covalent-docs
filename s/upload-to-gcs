@@ -10,3 +10,4 @@ gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
 
 gsutil -m -h "Cache-Control:public, max-age=86400" rsync -a public-read -R public gs://www.covalenthq.com/
 
+gsutil -m setmeta -h "Content-Type:text/html" -h "Cache-Control:public, max-age=60" 'gs://www.covalenthq.com/**.html'
