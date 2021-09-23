@@ -1,5 +1,6 @@
 ---
 title: Klaytn Network
+order: 11
 hidden: false
 featuredImage: ./images/Klaytn.png
 description: Klaytn is an enterprise-grade, service-centric platform that brings user-friendly blockchain experience to millions.

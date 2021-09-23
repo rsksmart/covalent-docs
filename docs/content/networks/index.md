@@ -33,6 +33,7 @@ We currently support the following networks:
 | [Palm](/networks/palm)                   | `11297108109`     |
 | [Moonriver](/networks/moonriver)         | `1285` |
 | [Klaytn](/networks/klaytn)               | `8217` |
+| [HECO](/networks/heco)               | `128` |
 
 </TableWrap>
 
@@ -53,7 +54,8 @@ We currently support the following networks:
 | [Arbitrum Testnet](/networks/arbitrum)               | `421611`     |
 | [Palm](/networks/palm)                   | `11297108099`     |
 | [Klaytn](/networks/klaytn)                   | `1001`     |
-
+| [HECO](/networks/heco)               | `256` |
+| [Polyjuice](/networks/polyjuice)               | `71393` |
 </TableWrap>
 
 ## Upcoming Networks
