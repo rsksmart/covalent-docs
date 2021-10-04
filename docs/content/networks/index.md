@@ -35,7 +35,6 @@ We currently support the following networks:
 | [Klaytn](/networks/klaytn)               | `8217` |
 | [HECO](/networks/heco)               | `128` |
 
-
 </TableWrap>
 
 &nbsp;
@@ -56,7 +55,7 @@ We currently support the following networks:
 | [Palm](/networks/palm)                   | `11297108099`     |
 | [Klaytn](/networks/klaytn)                   | `1001`     |
 | [HECO](/networks/heco)               | `256` |
-
+| [Polyjuice](/networks/polyjuice)               | `71393` |
 
 </TableWrap>
 
