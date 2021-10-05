@@ -179,13 +179,13 @@ class LookMLApp extends React.Component {
                         // if inputs.indexed == true then
                         switch (inp.type) {
                             case "address":
-                                return  " dimension: logged_"+ inp.name.toLowerCase() + " { \n " +
+                                return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
                                     " type: string\n" +
                                     " sql: ${TABLE}.\"logged_" + inp.name.toLowerCase() + "\" ;;\n" +
                                     " } \n"
                                     ;
                             default: // default as uint256
-                                return  " dimension: logged_"+ inp.name.toLowerCase() + " { \n " +
+                                return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
                                     " type: number\n" +
                                     " sql: ${TABLE}.\"logged_" + inp.name.toLowerCase() + "\" ;;\n" +
                                     " } \n"
@@ -201,48 +201,48 @@ class LookMLApp extends React.Component {
                         switch (inp.type) {
                             // "string" type: i.e. type address in function parameter
                             case "address":
-                                return  " measure: distinct_logged_" + inp.name.toLowerCase() + " { \n " +
+                                return  " measure: distinct_" + inp.name.toLowerCase() + " { \n " +
                                     " type: count_distinct\n  " +
                                     " hidden: yes \n " +
-                                    " sql: ${logged_" + inp.name.toLowerCase() + "} ;; \n" +
+                                    " sql: ${" + inp.name.toLowerCase() + "} ;; \n" +
                                     "  } \n" +
                                     " \n " +
-                                    " measure: change_logged_" + inp.name.toLowerCase() + " { \n" +
+                                    " measure: change_" + inp.name.toLowerCase() + " { \n" +
                                     " type: percent_of_previous\n " +
                                     " hidden: yes \n " +
-                                    " sql: ${distinct_logged_" + inp.name.toLowerCase() + "} ;; \n" +
+                                    " sql: ${distinct_" + inp.name.toLowerCase() + "} ;; \n" +
                                     " } \n" +
                                     " \n " +
-                                    " measure: list_logged_" + inp.name.toLowerCase() + " { \n " +
+                                    " measure: list_" + inp.name.toLowerCase() + " { \n " +
                                     " type: list \n " +
                                     " hidden: yes \n " +
-                                    " list_field: logged_" + inp.name.toLowerCase() + " \n " +
+                                    " list_field: " + inp.name.toLowerCase() + " \n " +
                                     " }"
                                     ;
                             // "integer" type: i.e. type uint256 in function parameter (default)
                             default:
-                                return  " measure: total_logged_" + inp.name.toLowerCase() + " { \n " +
+                                return  " measure: total_" + inp.name.toLowerCase() + " { \n " +
                                     " type: sum\n" +
                                     " hidden: yes\n" +
-                                    " sql: ${logged_" + inp.name.toLowerCase() + "} ;;\n" +
+                                    " sql: ${" + inp.name.toLowerCase() + "} ;;\n" +
                                     " }\n" +
                                     "\n" +
-                                    " measure: avg_logged_" + inp.name.toLowerCase() + " { \n " +
+                                    " measure: avg_" + inp.name.toLowerCase() + " { \n " +
                                     " type: average\n" +
                                     " hidden: yes\n" +
-                                    " sql: ${logged_" + inp.name.toLowerCase() + "} ;; \n " +
+                                    " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
                                     " }\n" +
                                     "\n" +
-                                    " measure: running_total_logged_" + inp.name.toLowerCase() + " { \n " +
+                                    " measure: running_total_" + inp.name.toLowerCase() + " { \n " +
                                     " type: running_total\n" +
                                     " hidden: yes\n" +
-                                    " sql: ${logged_" + inp.name.toLowerCase() + "} ;; \n " +
+                                    " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
                                     " }\n" +
                                     "\n" +
-                                    " measure: change_logged_" + inp.name.toLowerCase() + " { \n " +
+                                    " measure: change_" + inp.name.toLowerCase() + " { \n " +
                                     " type: percent_of_previous\n" +
                                     " hidden: yes\n" +
-                                    " sql: ${total_logged_" + inp.name.toLowerCase() + "} ;; \n " +
+                                    " sql: ${total_" + inp.name.toLowerCase() + "} ;; \n " +
                                     " }"
                                     ;
                         }
@@ -250,76 +250,78 @@ class LookMLApp extends React.Component {
                 );
 
         return (
-            <pre>
+        <pre>
           view: {viewname} {" { "} <br/>
-                {/*  -----------  DERIVED TABLE: START  ----------  */}
-                dervied_table: {" { "} <br/>
+          {/*  -----------  DERIVED TABLE: START  ----------  */}
+          derived_table: {" { "} <br/>
           sql: <br/>
           SELECT <br/>
-                {"    e.block_signed_at,"} <br/>
-                {"    e.block_height,"} <br/>
-                {"    '0x' || encode(e.tx_hash, 'hex') AS tx_hash,"} <br/>
-                {"    " + ifields.join(", \n    ")} {datafields.length > 0 ? "," : ""}   <br/>
-                {"    " + datafields.join(", \n    ")} <br/>
+          {"    e.block_signed_at,"} <br/>
+          {"    e.block_height,"} <br/>
+          {"    '0x' || encode(e.tx_hash, 'hex') AS tx_hash,"} <br/>
+          {"    " + ifields.join(", \n    ")} {datafields.length > 0 ? "," : ""}   <br/>
+          {"    " + datafields.join(", \n    ")} <br/>
           FROM {this.state.chain_name}.block_log_events e <br/>
           WHERE <br/>
-                {"    "} e.sender = {"'\\x" + this.state.address_input.substr(2) + "'"} <br/>
-                {"    "} AND e.topics[1] = {"'\\x" + s.substr(2) + "'"} <br/>
-                {" } "} <br/>
-                {/*  -----------  DERIVED TABLE: END  ----------  */}
-                <br/>
-                {/*  -----------  DIMENSIONS: HARD-CODED START  ----------  */}
-                dimension: tx_hash { "{" }  <br/>
-          type:  string  <br/>
-          sql: {" ${TABLE}.\"tx_hash\" ;; "}  <br/>
-                { "}" }  <br/>
+          {"    "} e.topics @> ARRAY[{"'\\x" + this.state.address_input.substr(2) + "'"}::byta]  <br/>
+          {"    "} AND e.sender = {"'\\x" + this.state.address_input.substr(2) + "'"}  <br/>
+          {"    "} AND e.topics[1] = {"'\\x" + s.substr(2) + "'"}  <br/>
+          {" ;; "}  <br/>
+          {" }  "}  <br/>
+          {/*  -----------  DERIVED TABLE: END  ----------  */}
           <br/>
+          {/*  -----------  DIMENSIONS: HARD-CODED START  ----------  */}
           dimension_group: block_signed_at { "{" }  <br/>
           type: time <br/>
           timeframes: [date, week, month, quarter, year] <br/>
           sql: {" ${TABLE}.\"block_signed_at\" ;; "}  <br/>
-                { "}" }  <br/>
+          { "}" }  <br/>
+          <br/>
+          dimension: tx_hash { "{" }  <br/>
+          type:  string  <br/>
+          sql: {" ${TABLE}.\"tx_hash\" ;; "}  <br/>
+          { "}" }  <br/>
           <br/>
           dimension: block_height { "{" }  <br/>
           type: number  <br/>
           sql: {" ${TABLE}.\"block_height\" ;; "}  <br/>
-                { "}" }  <br/>
-                {/*  -----------  DIMENSIONS: HARD-CODED END  ----------  */}
-                <br/>
-                {/*  -----------  DIMENSIONS: JavaScript-GENERATED START  ----------  */}
-                {"    " + dimensionfields.join(" \n    ")} <br/>
-                {/*  -----------  DIMENSIONS: JavaScript-GENERATED END  ----------  */}
-                <br/>
-                {/*  -----------  MEASURES: HARD-CODED START  ----------  */}
-                measure: count { "{" } <br/>
+          { "}" }  <br/>
+          {/*  -----------  DIMENSIONS: HARD-CODED END  ----------  */}
+          <br/>
+          {/*  -----------  DIMENSIONS: JavaScript-GENERATED START  ----------  */}
+          {"    " + dimensionfields.join(" \n    ")} <br/>
+          {/*  -----------  DIMENSIONS: JavaScript-GENERATED END  ----------  */}
+          <br/>
+          {/*  -----------  MEASURES: HARD-CODED START  ----------  */}
+          measure: count { "{" } <br/>
           type: count <br/>
-                { "}" } <br/>
+          { "}" } <br/>
           <br/>
           measure: distinct_tx_hash { "{" }  <br/>
           type: count_distinct  <br/>
           hidden: yes  <br/>
           sql: { " ${tx_hash} ;; " }  <br/>
-                { "}" } <br/>
+          { "}" } <br/>
           <br/>
           measure: change_tx_hash { "{" }  <br/>
           type: percent_of_previous  <br/>
           hidden: yes  <br/>
           sql: { " ${distinct_tx_hash} ;; " }  <br/>
-                { "}" } <br/>
+          { "}" } <br/>
           <br/>
           measure: list_tx_hash { "{" }  <br/>
           type: list  <br/>
           hidden: yes  <br/>
           list_field: tx_hash  <br/>
-                { "}" } <br/>
+          { "}" } <br/>
           <br/>
-                {/*  -----------  MEASURES: HARD-CODED END  ----------  */}
-
-                {/*  -----------  MEASURES: JavaScript-GENERATED START  ----------  */}
-                {"    " + measurefields.join(" \n    ")} <br/>
-                {/*  -----------  MEASURES: JavaScript-GENERATED END  ----------  */}
-                <br/>
-                {" } "} <br/>
+          {/*  -----------  MEASURES: HARD-CODED END  ----------  */}
+          <br/>
+          {/*  -----------  MEASURES: JavaScript-GENERATED START  ----------  */}
+          {"    " + measurefields.join(" \n    ")} <br/>
+          {/*  -----------  MEASURES: JavaScript-GENERATED END  ----------  */}
+          <br/>
+          {" } "} <br/>
         </pre>
         );
     }
