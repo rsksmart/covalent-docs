@@ -1,7 +1,7 @@
 import React from 'react'; // import this b/c we want to use class-based
 import "../css/components/topic-calculator.css";
 
-class App extends React.Component {
+class LookMLApp extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -452,6 +452,6 @@ class App extends React.Component {
 
 export default (props) => {
     return (
-        <App />
+        <LookMLApp />
     )
 }
