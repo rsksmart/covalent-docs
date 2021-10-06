@@ -1,4 +1,4 @@
-import React from 'react'; // import this b/c we want to use class-based
+import React from 'react';
 import "../css/components/topic-calculator.css";
 
 class LookMLApp extends React.Component {
@@ -35,17 +35,7 @@ class LookMLApp extends React.Component {
 
     _renderEvents = () => {
         if (this.state.events !== undefined){
-
             let items;
-            console.log(this.state.events.data.items.length);
-            // this.state.events.data.items:
-            //    corresponds to the "data"."items" in the JSON object
-            //    from here: https://api.covalenthq.com/v1/1/events/address/0xc00e94cb662c3520282e6f5717214004a7f26888/abi/?&key=ckey_4d5b231f1a584413ae6c3715bcf
-            console.log(this.state.events.data.items);
-            // the length of this.state.events.data.items is a list of length 1
-            // hence there is ONLY
-            // this.state.events.data.items[0] available, which is a JSON object
-            console.log(this.state.events.data.items[0]);
             for (var i = 0; i < this.state.events.data.items.length; i++) {
                 if ("contract_address" in this.state.events.data.items[i]) {
                     if (items === undefined) {
@@ -55,27 +45,13 @@ class LookMLApp extends React.Component {
                     }
                 }
             }
-            console.log(items.length);
-            console.log(items);
-            // NOTE: the items defined in the above for-loop is a length of 24 array
-            // namely the abi_items from (below), which is under "data"."items"."abi_items"
-            // https://api.covalenthq.com/v1/1/events/address/0xc00e94cb662c3520282e6f5717214004a7f26888/abi/?&key=ckey_4d5b231f1a584413ae6c3715bcf
             //  let items = this.state.events.data.items[0].abi_items;
-            // the name of the "items" is "abi_items"
-            // the type of the "items" is array
-            // the length of the "items" is 24
             let a =
                 items
-                    .filter(
-                        ( item )=> {
-                            return item.signature !==null;
-                        }
-                    )
-            // the above section FILTER out every <item> from <items> (defined in the for-loop above),
-            // as long as the signature of each <item> is null
-            // Hence, there are only 4 <item> left
-            console.log("Is a an Array? : " + Array.isArray(a));
-            console.log(a);
+                    .filter(( item )=> {
+                        return item.signature !==null;
+                    })
+
             return (
                 <div className="topics">
                     <p>Found {a.length} Topics:</p>
@@ -123,131 +99,105 @@ class LookMLApp extends React.Component {
         }
     }
 
-    // s: item.topic_hash
-    // e: item.abi
     _lookml = (s,e) => {
-        // console.log("Hello");
-        // console.log("World");
-        // Camel Case vs Snake Case
-        // console.log(e.name.split(/(?=[A-Z])/).join('_').toLowerCase());
-        // 1. create view name
         const viewname = e.name.split(/(?=[A-Z])/).join('_').toLowerCase();
-        console.log(e.name);
-        console.log(viewname);
 
-        // define <inputs> as: e.inputs, i.e. item.abi.inputs
-        // the <inputs> here is an Array of JSON objects of length 3
         let inputs = e.inputs;
-        // say we are exploring the first in the Array, i.e., inputs[0]
-        console.log(inputs[0]);
-
         const ifields =
             inputs
                 .filter(input => input.indexed)
-                .map(
-                    (inp,i)=>{
-                        // if inputs.indexed == true then
-                        switch (inp.type) {
-                            case "address":
-                                return "'0x' || encode(extract_address(e.topics[" + (i + 2) + "]), 'hex') AS logged_"
-                                    + inp.name.toLowerCase();
-                            default:
-                                return "e.topics[" + (i + 2) + "] AS logged_" + inp.name.toLowerCase();
-                        }
+                .map(( inp, i ) => {
+                    switch (inp.type) {
+                        case "address":
+                            return "'0x' || encode(extract_address(e.topics[" + (i + 2) + "]), 'hex') AS logged_"
+                                + inp.name.toLowerCase();
+                        default:
+                            return "e.topics[" + (i + 2) + "] AS logged_" + inp.name.toLowerCase();
                     }
-                );
-        // data fields that corresponds to
+                });
+
         const datafields =
             inputs
-                .filter(input => !input.indexed) // filter that the input.indexed === false
-                .map(
-                    (inp,i) => {
-                        switch (inp.type) {
-                            case "address":
-                                return "'0x' || encode(extract_address(abi_field(e.data, " + i + ")), 'hex') AS logged_"
-                                    + inp.name.toLowerCase();
-                            default:
-                                return "cast(abi_field(e.data, " + i + ") as numeric) AS logged_" + inp.name.toLowerCase();
-                        }
+                .filter(input => !input.indexed)
+                .map(( inp, i ) => {
+                    switch (inp.type) {
+                        case "address":
+                            return "'0x' || encode(extract_address(abi_field(e.data, " + i + ")), 'hex') AS logged_"
+                                + inp.name.toLowerCase();
+                        default:
+                            return "cast(abi_field(e.data, " + i + ") as numeric) AS logged_" + inp.name.toLowerCase();
                     }
-                );
+                });
 
         const dimensionfields =
-            inputs // .filter(input => input.indexed)
-                .map(
-                    (inp)=>{
-                        // if inputs.indexed == true then
-                        switch (inp.type) {
-                            case "address":
-                                return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
+            inputs
+                .map(( inp ) => {
+                    switch (inp.type) {
+                        case "address":
+                            return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
                                     " type: string\n" +
                                     " sql: ${TABLE}.\"logged_" + inp.name.toLowerCase() + "\" ;;\n" +
                                     " } \n"
                                     ;
-                            default: // default as uint256
-                                return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
+                        default:
+                            return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
                                     " type: number\n" +
                                     " sql: ${TABLE}.\"logged_" + inp.name.toLowerCase() + "\" ;;\n" +
                                     " } \n"
                                     ;
-                        }
                     }
-                );
+                });
 
         const measurefields =
             inputs
-                .map(
-                    (inp)=>{
-                        switch (inp.type) {
-                            // "string" type: i.e. type address in function parameter
-                            case "address":
-                                return  " measure: distinct_" + inp.name.toLowerCase() + " { \n " +
-                                    " type: count_distinct\n  " +
-                                    " hidden: yes \n " +
-                                    " sql: ${" + inp.name.toLowerCase() + "} ;; \n" +
-                                    "  } \n" +
-                                    " \n " +
-                                    " measure: change_" + inp.name.toLowerCase() + " { \n" +
-                                    " type: percent_of_previous\n " +
-                                    " hidden: yes \n " +
-                                    " sql: ${distinct_" + inp.name.toLowerCase() + "} ;; \n" +
-                                    " } \n" +
-                                    " \n " +
-                                    " measure: list_" + inp.name.toLowerCase() + " { \n " +
-                                    " type: list \n " +
-                                    " hidden: yes \n " +
-                                    " list_field: " + inp.name.toLowerCase() + " \n " +
-                                    " }"
-                                    ;
-                            // "integer" type: i.e. type uint256 in function parameter (default)
-                            default:
-                                return  " measure: total_" + inp.name.toLowerCase() + " { \n " +
-                                    " type: sum\n" +
-                                    " hidden: yes\n" +
-                                    " sql: ${" + inp.name.toLowerCase() + "} ;;\n" +
-                                    " }\n" +
-                                    "\n" +
-                                    " measure: avg_" + inp.name.toLowerCase() + " { \n " +
-                                    " type: average\n" +
-                                    " hidden: yes\n" +
-                                    " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
-                                    " }\n" +
-                                    "\n" +
-                                    " measure: running_total_" + inp.name.toLowerCase() + " { \n " +
-                                    " type: running_total\n" +
-                                    " hidden: yes\n" +
-                                    " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
-                                    " }\n" +
-                                    "\n" +
-                                    " measure: change_" + inp.name.toLowerCase() + " { \n " +
-                                    " type: percent_of_previous\n" +
-                                    " hidden: yes\n" +
-                                    " sql: ${total_" + inp.name.toLowerCase() + "} ;; \n " +
-                                    " }"
-                                    ;
-                        }
+                .map(( inp ) => {
+                    switch (inp.type) {
+                        case "address":
+                            return  " measure: distinct_" + inp.name.toLowerCase() + " { \n " +
+                                " type: count_distinct\n  " +
+                                " hidden: yes \n " +
+                                " sql: ${" + inp.name.toLowerCase() + "} ;; \n" +
+                                "  } \n" +
+                                " \n " +
+                                " measure: change_" + inp.name.toLowerCase() + " { \n" +
+                                " type: percent_of_previous\n " +
+                                " hidden: yes \n " +
+                                " sql: ${distinct_" + inp.name.toLowerCase() + "} ;; \n" +
+                                " } \n" +
+                                " \n " +
+                                " measure: list_" + inp.name.toLowerCase() + " { \n " +
+                                " type: list \n " +
+                                " hidden: yes \n " +
+                                " list_field: " + inp.name.toLowerCase() + " \n " +
+                                " }"
+                                ;
+                        default:
+                            return  " measure: total_" + inp.name.toLowerCase() + " { \n " +
+                                " type: sum\n" +
+                                " hidden: yes\n" +
+                                " sql: ${" + inp.name.toLowerCase() + "} ;;\n" +
+                                " }\n" +
+                                "\n" +
+                                " measure: avg_" + inp.name.toLowerCase() + " { \n " +
+                                " type: average\n" +
+                                " hidden: yes\n" +
+                                " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
+                                " }\n" +
+                                "\n" +
+                                " measure: running_total_" + inp.name.toLowerCase() + " { \n " +
+                                " type: running_total\n" +
+                                " hidden: yes\n" +
+                                " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
+                                " }\n" +
+                                "\n" +
+                                " measure: change_" + inp.name.toLowerCase() + " { \n " +
+                                " type: percent_of_previous\n" +
+                                " hidden: yes\n" +
+                                " sql: ${total_" + inp.name.toLowerCase() + "} ;; \n " +
+                                " }"
+                                ;
                     }
-                );
+                });
 
         return (
         <pre>
