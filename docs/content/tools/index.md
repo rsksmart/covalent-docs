@@ -23,6 +23,11 @@ The Topic SQL Generator allows you to easily calculate topic hashes for events e
 The Topic LookML Generator allows you to easily calculate topic hashes for events emitted from any smart contract and generate the corresponding LookML.
 
 &nbsp;
+## [Topic LookML-All-in-One Generator](/tools/topic-calculator-lookmlallinone/)
+The Topic LookML-All-in-One Generator allows you to easily calculate topic hashes for events emitted from any smart contract and generate a consolidated corresponding LookML.
+
+
+&nbsp;
 ## [Token Holders Calculator](/tools/token-holders/)
 The Token Holders Calculator allows you to get the **complete list** of token holders and token balances for any token contract as of a specific `block_height`.  
 
