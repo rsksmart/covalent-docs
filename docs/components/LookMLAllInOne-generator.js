@@ -112,18 +112,17 @@ class LookMLAllInOneApp extends React.Component {
             { a.map( ( item ) => {
               return (
                 <div>
-                  <h5>
+                  <h4>
                     {item.signature.replace(/([A-Z])/g, ' $1').trim()}
-                  </h5>
+                  </h4>
                   <code>
-                    {"Hashcode: " + item.topic_hash}
+                    {item.topic_hash}
                   </code>
                 </div>
               );
             })}
           </div>
           <div>
-            <p>Auto-generated LookML Views start from here:</p>
             <ul style={{listStyleType: "none", paddingLeft: 0}}>
               <div className="box" style={{position: "relative"}}>
                 <li>
