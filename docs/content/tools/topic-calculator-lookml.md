@@ -1,6 +1,6 @@
 ---
 title: Topic Calculator (LookML)
-order: 3
+order: 8
 hidden: false
 ---
 
