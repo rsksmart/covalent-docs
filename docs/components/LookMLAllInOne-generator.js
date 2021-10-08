@@ -2,6 +2,7 @@ import React from 'react';
 import "../css/components/topic-calculator.css";
 
 class LookMLAllInOneApp extends React.Component {
+
   constructor() {
     super();
     this.state = {
@@ -11,6 +12,7 @@ class LookMLAllInOneApp extends React.Component {
       text: "Copy to clipboard",
       chain_name: "chain_eth_mainnet",
       chain_id: "1",
+      sql_dialect: "postgre",
       all_chains_data: []
     };
   }
@@ -27,10 +29,6 @@ class LookMLAllInOneApp extends React.Component {
     } else {
       this.setState({error: true});
     }
-  }
-
-  _renderOptions = (db_schema_name, label, chain_id) => {
-    return (<option value={db_schema_name+","+chain_id}>{label}</option>);
   }
 
   copyToClipboard = (contents) => {
@@ -95,7 +93,9 @@ class LookMLAllInOneApp extends React.Component {
       let bigResult = [];
       let bigArray = [];
       for (let i = 0; i < a.length; i++) {
-        const result = this._lookml(a[i].topic_hash, a[i].abi);
+        const result = (
+          this.state.sql_dialect === 'postgre' ?
+            this._postgre(a[i].topic_hash, a[i].abi) : this._snowflake(a[i].topic_hash, a[i].abi));
         let consolidated = this._consolidateLookML(result);
 
         bigResult.push(result);
@@ -149,7 +149,185 @@ class LookMLAllInOneApp extends React.Component {
     }
   }
 
-  _lookml = (s,e) => {
+  _snowflake = (s,e) => {
+    // s: item.topic_hash
+    // e: item.abi
+    const viewname = e.name.split(/(?=[A-Z])/).join('_').toLowerCase();
+    let inputs = e.inputs;
+
+    const indexedfields = inputs
+      .filter(input => input.indexed)
+      .map((inp,i) => {
+        switch (inp.type) {
+          case "address":
+            return "'0x' || RIGHT(hex_encode(TOPIC"+(i + 1) + "), 40) AS " + inp.name.toLowerCase();
+          default:
+            return "hex_encode(TOPIC"+(i+1)+") AS " + inp.name.toLowerCase();
+        }
+      });
+
+    const datafields = inputs
+      .filter(input => !input.indexed)
+      .map((inp,i) => {
+        switch (inp.type) {
+          case "address":
+            return "'0x' || RIGHT(hex_encode(DATA"+i + "), 40) AS " + inp.name.toLowerCase();
+          default:
+            return "DATA" + i + " AS " + inp.name.toLowerCase();
+        }
+      });
+
+    const dimensionfields =
+      inputs
+        .map((inp) => {
+          switch (inp.type) {
+            case "address":
+              return " dimension: "+ inp.name.toLowerCase() + " { \n " +
+                " type: string\n" +
+                " sql: ${TABLE}.\"" + inp.name.toLowerCase() + "\" ;;\n" +
+                " } \n"
+                ;
+            default: // default as uint256
+              return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
+                " type: number\n" +
+                " sql: ${TABLE}.\"" + inp.name.toLowerCase() + "\" ;;\n" +
+                " } \n"
+                ;
+          }
+        });
+
+    const measurefields =
+      inputs
+        .map((inp) => {
+          switch (inp.type) {
+            // "string" type: i.e. type address in function parameter
+            case "address":
+              return  " measure: distinct_" + inp.name.toLowerCase() + " { \n " +
+                " type: count_distinct\n  " +
+                " hidden: yes \n " +
+                " sql: ${" + inp.name.toLowerCase() + "} ;; \n" +
+                "  } \n" +
+                " \n " +
+                " measure: change_" + inp.name.toLowerCase() + " { \n" +
+                " type: percent_of_previous\n " +
+                " hidden: yes \n " +
+                " sql: ${distinct_" + inp.name.toLowerCase() + "} ;; \n" +
+                " } \n" +
+                " \n " +
+                " measure: list_" + inp.name.toLowerCase() + " { \n " +
+                " type: list \n " +
+                " hidden: yes \n " +
+                " list_field: " + inp.name.toLowerCase() + " \n " +
+                " }"
+                ;
+            // "integer" type: i.e. type uint256 in function parameter (default)
+            default:
+              return  " measure: total_" + inp.name.toLowerCase() + " { \n " +
+                " type: sum\n" +
+                " hidden: yes\n" +
+                " sql: ${" + inp.name.toLowerCase() + "} ;;\n" +
+                " }\n" +
+                "\n" +
+                " measure: avg_" + inp.name.toLowerCase() + " { \n " +
+                " type: average\n" +
+                " hidden: yes\n" +
+                " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
+                " }\n" +
+                "\n" +
+                " measure: running_total_" + inp.name.toLowerCase() + " { \n " +
+                " type: running_total\n" +
+                " hidden: yes\n" +
+                " sql: ${" + inp.name.toLowerCase() + "} ;; \n " +
+                " }\n" +
+                "\n" +
+                " measure: change_" + inp.name.toLowerCase() + " { \n " +
+                " type: percent_of_previous\n" +
+                " hidden: yes\n" +
+                " sql: ${total_" + inp.name.toLowerCase() + "} ;; \n " +
+                " }"
+                ;
+          }
+        });
+
+    // s: item.topic_hash
+    return (
+      <pre>
+        view: {viewname} {" { "}  <br/>
+        {/*  -----------  DERIVED TABLE: START  ----------  */}
+        derived_table: {" { "}  <br/>
+        sql:  <br/>
+        SELECT  <br/>
+        {"    SIGNED_AT, "}  <br/>
+        {"    BLOCK_HEIGHT, "}  <br/>
+        {"    '0x' || hex_encode(TX_HASH) AS tx_hash,"}  <br/>
+        {"    " + indexedfields.join(", \n    ")}{datafields.length > 0 ? "," : ""}  <br/>
+        {"    " + datafields.join(", \n    ")} <br/>
+        FROM PUBLIC.LOG_EVENTS  <br/>
+        WHERE <br/>
+        {"    "} TOPIC0 = to_binary({"'" + s.substr(2) + "'"})  <br/>
+        {"    "} AND EMITTER = {"'" + this.state.address_input.substr(2) + "'"}  <br/>
+        {"    "} AND CHAIN_ID = {this.state.chain_id}  <br/>
+        {" ;; "}  <br/>
+        {" }  "}  <br/>
+        {/*  -----------  DERIVED TABLE: END  ----------  */}
+        <br/>
+        {/*  -----------  DIMENSIONS: HARD-CODED START  ----------  */}
+        dimension_group: block_signed_at { "{" }  <br/>
+        type: time <br/>
+        timeframes: [date, week, month, quarter, year] <br/>
+        sql: {" ${TABLE}.\"SIGNED_AT\" ;; "}  <br/>
+        { "}" }  <br/>
+        <br/>
+        dimension: tx_hash { "{" }  <br/>
+        type:  string  <br/>
+        sql: {" ${TABLE}.\"tx_hash\" ;; "}  <br/>
+        { "}" }  <br/>
+        <br/>
+        dimension: block_height { "{" }  <br/>
+        type: number  <br/>
+        sql: {" ${TABLE}.\"BLOCK_HEIGHT\" ;; "}  <br/>
+        { "}" }  <br/>
+        {/*  -----------  DIMENSIONS: HARD-CODED END  ----------  */}
+        <br/>
+        {/*  -----------  DIMENSIONS: JavaScript-GENERATED START  ----------  */}
+        {"    " + dimensionfields.join(" \n    ")} <br/>
+        {/*  -----------  DIMENSIONS: JavaScript-GENERATED END  ----------  */}
+        <br/>
+        {/*  -----------  MEASURES: HARD-CODED START  ----------  */}
+        measure: count { "{" } <br/>
+        type: count <br/>
+        { "}" } <br/>
+        <br/>
+        measure: distinct_tx_hash { "{" }  <br/>
+        type: count_distinct  <br/>
+        hidden: yes  <br/>
+        sql: { " ${tx_hash} ;; " }  <br/>
+        { "}" } <br/>
+        <br/>
+        measure: change_tx_hash { "{" }  <br/>
+        type: percent_of_previous  <br/>
+        hidden: yes  <br/>
+        sql: { " ${distinct_tx_hash} ;; " }  <br/>
+        { "}" } <br/>
+        <br/>
+        measure: list_tx_hash { "{" }  <br/>
+        type: list  <br/>
+        hidden: yes  <br/>
+        list_field: tx_hash  <br/>
+        { "}" } <br/>
+        <br/>
+        {/*  -----------  MEASURES: HARD-CODED END  ----------  */}
+        <br/>
+        {/*  -----------  MEASURES: JavaScript-GENERATED START  ----------  */}
+        {"    " + measurefields.join(" \n    ")} <br/>
+        {/*  -----------  MEASURES: JavaScript-GENERATED END  ----------  */}
+        <br/>
+        {" } "} <br/>
+      </pre>
+    );
+  }
+
+  _postgre = (s,e) => {
     // s: item.topic_hash
     // e: item.abi
     // create looker view name: switch from Camel Case to Snake Case
@@ -164,10 +342,10 @@ class LookMLAllInOneApp extends React.Component {
         .map((inp,i) => {
           switch (inp.type) {
             case "address":
-              return "'0x' || encode(extract_address(e.topics[" + (i + 2) + "]), 'hex') AS logged_" +
+              return "'0x' || encode(extract_address(e.topics[" + (i + 2) + "]), 'hex') AS " +
                 inp.name.toLowerCase();
             default:
-              return "e.topics[" + (i + 2) + "] AS logged_" + inp.name.toLowerCase();
+              return "e.topics[" + (i + 2) + "] AS " + inp.name.toLowerCase();
           }
         });
 
@@ -177,10 +355,10 @@ class LookMLAllInOneApp extends React.Component {
         .map((inp,i) => {
           switch (inp.type) {
             case "address":
-              return "'0x' || encode(extract_address(abi_field(e.data, " + i + ")), 'hex') AS logged_" +
+              return "'0x' || encode(extract_address(abi_field(e.data, " + i + ")), 'hex') AS " +
                 inp.name.toLowerCase();
             default:
-              return "cast(abi_field(e.data, " + i + ") as numeric) AS logged_" + inp.name.toLowerCase();
+              return "cast(abi_field(e.data, " + i + ") as numeric) AS " + inp.name.toLowerCase();
           }
         });
 
@@ -191,13 +369,13 @@ class LookMLAllInOneApp extends React.Component {
             case "address":
               return " dimension: "+ inp.name.toLowerCase() + " { \n " +
                 " type: string\n" +
-                " sql: ${TABLE}.\"logged_" + inp.name.toLowerCase() + "\" ;;\n" +
+                " sql: ${TABLE}.\"" + inp.name.toLowerCase() + "\" ;;\n" +
                 " } \n"
                 ;
             default: // default as uint256
               return  " dimension: "+ inp.name.toLowerCase() + " { \n " +
                 " type: number\n" +
-                " sql: ${TABLE}.\"logged_" + inp.name.toLowerCase() + "\" ;;\n" +
+                " sql: ${TABLE}.\"" + inp.name.toLowerCase() + "\" ;;\n" +
                 " } \n"
                 ;
           }
@@ -266,7 +444,7 @@ class LookMLAllInOneApp extends React.Component {
         {"    e.block_signed_at,"} <br/>
         {"    e.block_height,"} <br/>
         {"    '0x' || encode(e.tx_hash, 'hex') AS tx_hash,"} <br/>
-        {"    " + ifields.join(", \n    ")} {datafields.length > 0 ? "," : ""}   <br/>
+        {"    " + ifields.join(", \n    ")}{datafields.length > 0 ? "," : ""}   <br/>
         {"    " + datafields.join(", \n    ")} <br/>
         FROM {this.state.chain_name}.block_log_events e <br/>
         WHERE <br/>
@@ -341,8 +519,10 @@ class LookMLAllInOneApp extends React.Component {
         .then(( data ) => {
           if(data.data.items.length === 0) {
             this.setState({
-              error: true,
-              error_message: "Invalid contract address!"});
+                error: true,
+                error_message: "Invalid contract address!" + " Your chain selection corresponds to chain_id: " + this.state.chain_id + ". Try a different chain selection."
+              }
+            );
           } else {
             this.setState({
               events: data, //data
@@ -377,6 +557,18 @@ class LookMLAllInOneApp extends React.Component {
     })
   }
 
+  _handleDialectChange = (event) => {
+    this.setState({sql_dialect : event.target.value});
+  }
+
+  _renderOptions = (db_schema_name, label, chain_id) => {
+    return (
+      <option value={db_schema_name+","+chain_id}>
+        {label}
+      </option>
+    );
+  }
+
   render() {
     var err = this.state.error ? this.state.error_message : null;
     return (
@@ -389,8 +581,20 @@ class LookMLAllInOneApp extends React.Component {
                    onChange={this._inputAddress}
                    style={{marginRight: "1rem", border: "none"}}
             />
-            <select style={{marginRight: "1rem", height: 39}} onChange={this._inputChainId}>
-              {this.state.all_chains_data.map(o => this._renderOptions(o.db_schema_name, o.label, o.chain_id))}
+            <select
+              style={{marginRight: "1rem", height: 39}}
+              onChange={this._inputChainId}>
+              {
+                this.state.all_chains_data.map(
+                  o => this._renderOptions(o.db_schema_name, o.label, o.chain_id)
+                )
+              }
+            </select>
+            <select
+              style={{marginRight: "1rem", height: 39}}
+              onChange={this._handleDialectChange}>
+              <option value="postgre">PostgreSQL</option>
+              <option value="snowflake">Snowflake SQL</option>
             </select>
             <button onClick={this._clickNext} >Get all-in-one LookML!</button>
           </div> : null}
@@ -399,6 +603,7 @@ class LookMLAllInOneApp extends React.Component {
       </div>
     );
   }
+
 
 }
 
