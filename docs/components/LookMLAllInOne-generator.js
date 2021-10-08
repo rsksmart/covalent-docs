@@ -270,9 +270,9 @@ class LookMLAllInOneApp extends React.Component {
         {"    " + datafields.join(", \n    ")} <br/>
         FROM {this.state.chain_name}.block_log_events e <br/>
         WHERE <br/>
-        {"    "} e.topics @> ARRAY[{"'\\x" + this.state.address_input.substr(2) + "'"}::byta]  <br/>
-        {"    "} AND e.sender = {"'\\x" + this.state.address_input.substr(2) + "'"}  <br/>
+        {"    "} e.topics @> ARRAY[{"'\\x" + s.substr(2) + "'"}::byta]  <br/>
         {"    "} AND e.topics[1] = {"'\\x" + s.substr(2) + "'"}  <br/>
+        {"    "} AND e.sender = {"'\\x" + this.state.address_input.substr(2) + "'"}  <br/>
         {" ;; "}  <br/>
         {" }  "}  <br/>
         {/*  -----------  DERIVED TABLE: END  ----------  */}
