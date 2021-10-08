@@ -94,8 +94,9 @@ SELECT <br/>
 {"    " + dfields.join(", \n    ")} <br />
 FROM {this.state.chain_name}.block_log_events e <br />
 WHERE <br />
-{"    "} e.sender = {"'\\x" + this.state.address_input.substr(2) + "'"} <br />
-{"    "} AND e.topics[1] = {"'\\x" + s.substr(2) + "'"}
+  {"    "} e.topics @> ARRAY[{"'\\x" + s.substr(2) + "'"}::byta]  <br/>
+  {"    "} AND e.topics[1] = {"'\\x" + s.substr(2) + "'"}  <br/>
+  {"    "} AND e.sender = {"'\\x" + this.state.address_input.substr(2) + "'"} <br />
 </pre>;
 
 
