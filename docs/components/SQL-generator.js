@@ -69,18 +69,18 @@ class SQLApp extends React.Component {
      const ifields = inputs.filter(input => input.indexed).map((inp,i)=>{
       switch (inp.type) {
           case "address":
-              return "'0x' || encode(extract_address(e.topics[" + (i + 2) + "]), 'hex') AS logged_" + inp.name.toLowerCase();
+              return "'0x' || encode(extract_address(e.topics[" + (i + 2) + "]), 'hex') AS " + inp.name.toLowerCase();
           default:
-              return "e.topics[" + (i + 2) + "] AS logged_" + inp.name.toLowerCase();
+              return "e.topics[" + (i + 2) + "] AS " + inp.name.toLowerCase();
        }
      });
 
      const dfields = inputs.filter(input => !input.indexed).map((inp,i) => {
       switch (inp.type) {
          case "address":
-              return "'0x' || encode(extract_address(abi_field(e.data, " + i + ")), 'hex') AS logged_" + inp.name.toLowerCase();
+              return "'0x' || encode(extract_address(abi_field(e.data, " + i + ")), 'hex') AS " + inp.name.toLowerCase();
           default:
-              return "cast(abi_field(e.data, " + i + ") as numeric) AS logged_" + inp.name.toLowerCase();
+              return "cast(abi_field(e.data, " + i + ") as numeric) AS " + inp.name.toLowerCase();
       }
      });
 
