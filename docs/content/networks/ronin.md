@@ -36,7 +36,7 @@ Ronin is an Ethereum-linked sidechain made specifically for Axie Infinity. A Ron
 
 <Aside>
 
-All __Class A__ endpoints are supported for the HECO mainnet and the HECO testnet. You can query either network via the unified API by changing the `chainId`.
+All __Class A__ endpoints are supported for the Ronin mainnet and Ronin testnet. You can query either network via the unified API by changing the `chainId`.
 
 </Aside>
 
