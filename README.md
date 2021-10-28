@@ -6,6 +6,7 @@ The official docs site for Covalent. This is also referred to as the *Knowledge 
 
 The directions on how to showcase your project is [here](./docs/content/project-showcase/submit-project.md). 
 
+
 ## Contributing
 
 Please read the contribution guidelines [here](CONTRIBUTING.md).
