@@ -53,3 +53,9 @@ Supported networks: Mainnet.
 Full documentation for JSON-RPC and WebSockets APIs can be found [here](https://developers.rsk.co/rsk/node/architecture/json-rpc/).
 ​
 
+
+#### **PROMO CODE**: COVALENT15
+ - Users with this promo code will get a 15% discount on GetBlock's dedicated node services
+ -  Before making a purchase on the website, please send your request for a dedicated node with the promo code to bridget@getblock.io
+
+
