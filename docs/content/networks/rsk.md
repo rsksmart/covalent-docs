@@ -1,5 +1,5 @@
 ---
-title: RSK indexing & querying data API
+title: RSK Mainnet & Testnet
 order: 8
 hidden: false
 featuredImage: ./images/RSK.png

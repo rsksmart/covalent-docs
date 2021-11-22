@@ -1,5 +1,5 @@
 ---
-title: Avalanche indexing & querying data API
+title: Avalanche Mainnet & Testnet
 order: 3
 hidden: false
 featuredImage: ./images/Avalanche.png

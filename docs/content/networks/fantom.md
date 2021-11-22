@@ -1,5 +1,5 @@
 ---
-title: Fantom indexing & querying data API
+title: Fantom Mainnet & Testnet
 order: 5
 hidden: false
 featuredImage: ./images/Fantom.png

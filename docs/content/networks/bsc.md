@@ -1,5 +1,5 @@
 ---
-title: Binance Smart Chain indexing & querying data API
+title: Binance Smart Chain Mainnet & Testnet
 order: 4
 hidden: false
 featuredImage: ./images/Binance.png

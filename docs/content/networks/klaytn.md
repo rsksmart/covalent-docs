@@ -1,5 +1,5 @@
 ---
-title: Klaytn Network
+title: Klaytn Network Mainnet & Testnet
 order: 11
 hidden: false
 featuredImage: ./images/Klaytn.png

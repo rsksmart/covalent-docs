@@ -1,5 +1,5 @@
 ---
-title: Ethereum indexing & querying data API
+title: Ethereum Mainnet & Testnet
 order: 1
 hidden: false
 featuredImage: ./images/Ethereum.png

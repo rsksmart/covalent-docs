@@ -1,5 +1,5 @@
 ---
-title: Moonbeam indexing & querying data API
+title: Moonbeam Mainnet & Testnet
 order: 6
 hidden: false
 featuredImage: ./images/Moonbeam.png

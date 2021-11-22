@@ -1,7 +1,5 @@
 ---
-title: Palm indexing & querying data API
-order: 10
-hidden: false
+title: Palm Mainnet & Testnet
 featuredImage: ./images/Palm.png
 description: Support for the Palm NFTs network
 ---

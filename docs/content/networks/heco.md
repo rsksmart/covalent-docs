@@ -1,5 +1,5 @@
 ---
-title: Heco Network
+title: Heco Mainnet & Testnet
 order: 12
 hidden: false
 featuredImage: ./images/Heco.png

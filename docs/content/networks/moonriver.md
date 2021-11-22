@@ -1,6 +1,5 @@
 ---
-title: Moonriver indexing & querying data API
-order: 7
+title: Moonriver Kusama
 hidden: false
 featuredImage: ./images/Moonriver.png
 description: Support for the Moonriver network

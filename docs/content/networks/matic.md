@@ -1,5 +1,5 @@
 ---
-title: Polygon/Matic indexing & querying data API
+title: Matic Mainnet & Testnet
 order: 2
 hidden: false
 featuredImage: ./images/Matic.png
