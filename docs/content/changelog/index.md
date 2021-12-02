@@ -26,7 +26,7 @@ Every change to our API matters and reflects our belief in one of the following 
 | [August](./august)         | Check if a Network `is_testnet`    |
 | [September](./september)         | We added compatibility for RNS |
 | [October](./october)         | New fiat currencies |
-
+| [November](./november)         | GBP Supported |
 
 
 
