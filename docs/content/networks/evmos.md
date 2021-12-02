@@ -1,7 +1,7 @@
 ---
 title: EVMOS Mainnet & Testnet
 order: 15
-hidden: false
+hidden: true
 featuredImage: ./images/Evmos.png
 description: Evmos is an application-agnostic Cosmos chain that will be interoperable with the Ethereum mainnet.
 ---
