@@ -35,7 +35,6 @@ We currently support the following networks:
 | [Klaytn](/networks/klaytn)               | `8217` |
 | [HECO](/networks/heco)               | `128` |
 | [Axie/Ronin](/networks/ronin)               | `2020` |
-| [EVMOS](/networks/evmos)               | `9001` |
 
 </TableWrap>
 
@@ -58,7 +57,7 @@ We currently support the following networks:
 | [Klaytn](/networks/klaytn)                   | `1001`     |
 | [HECO](/networks/heco)               | `256` |
 | [Polyjuice](/networks/polyjuice)               | `71393` |
-| [EVMOS](/networks/evmos)               | `9000` |
+
 </TableWrap>
 
 ## Upcoming Networks

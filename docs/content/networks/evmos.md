@@ -20,7 +20,6 @@ Evmos is an application-agnostic Cosmos chain that will be interoperable with th
 
 |Property|Value|
 |---|---|
-|EVMOS Mainnet chainId|`9001`|
 |EVMOS Testnet chainId|`9000`|
 |Cosmos Blockchain Explorer|explorer.evmos.org|
 |Block time|~7 seconds|
