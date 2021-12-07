@@ -34,7 +34,6 @@ We currently support the following networks:
 | [Moonriver](/networks/moonriver)         | `1285` |
 | [Klaytn](/networks/klaytn)               | `8217` |
 | [HECO](/networks/heco)               | `128` |
-| [Axie/Ronin](/networks/ronin)               | `2020` |
 | [IoTex](/networks/iotex)               | `4789` |
 
 </TableWrap>
@@ -58,7 +57,7 @@ We currently support the following networks:
 | [Klaytn](/networks/klaytn)                   | `1001`     |
 | [HECO](/networks/heco)               | `256` |
 | [Polyjuice](/networks/polyjuice)               | `71393` |
-| [IoTex](/networks/iotex)               | `4790` |
+| [IoTeX](/networks/iotex)               | `4790` |
 
 </TableWrap>
 

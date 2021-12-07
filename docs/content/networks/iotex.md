@@ -1,20 +1,22 @@
 ---
-title: IoTex Mainnet & Testnet
+title: IoTeX Mainnet & Testnet
 order: 16
 hidden: false
-featuredImage: ./images/IoTex.png
+featuredImage: ./images/IoTeX.png
 description: IoTeX is a blockchain-based platform, designed to become the decentralized backbone for Internet of Things applications.
 ---
 
-![IoTex network banner](./images/IoTex.png)
+![IoTeX network banner](./images/IoTeX.png)
 
 # IoTeX
 
 ## Introduction
 
-[IoTeX](https://iotex.io/) is a blockchain-based platform, designed to become the decentralized backbone for Internet of Things applications. 
+[IoTeX](https://iotube.org/) is a blockchain-based platform, designed to become the decentralized backbone for Internet of Things applications. 
 
-With an ever-growing ecosystem of projects and products from DeFi to Tools to Gaming, IoTeX currently leads the world’s premier industry consortiums and standards bodies such as IEEE, IIC, and more. With numerous contributions to the Blockchain and IoT space, the IoTeX blockchain already powers real devices, including Ucam, an award-winning blockchain-powered cameras presented at the Consumer Electronics Show (CES) and the Pebble geo device. Pebble is a secure device designed by IoTeX and perfect for supply chain optimization in any industry. As a next step, IoTeX is launching "MachineFi" , to power next-gen IoT applications.
+With an ever-growing ecosystem of projects and products from DeFi to Tools to Gaming. IoTeX currently leads the world’s premier industry consortiums and standards bodies such as IEEE, IIC, and more. With numerous contributions to the Blockchain and IoT space, the IoTeX blockchain already powers real devices, including award-winning blockchain-powered cameras from Consumer Electronic Show (CES) and the Pebble geo device. 
+
+Pebble is a secure device designed by IoTeX perfect for supply chain optimization in any industry. As a next step, IoTeX is launching "MachineFi" , to power next-gen IoT applications.
 
 
 ### Quick facts
@@ -23,10 +25,10 @@ With an ever-growing ecosystem of projects and products from DeFi to Tools to Ga
 
 |Property|Value|
 |---|---|
-|IoTex Mainnet chainId |`4689`|
-|IoTex Testnet chainId |`4690`|
-|IoTex Bridge |https://iotube.org/|
-|IoTex Blockchain Explorer |https://iotexscan.io/|
+|IoTeX Mainnet chainId |`4689`|
+|IoTeX Testnet chainId |`4690`|
+|IoTeX Bridge |https://iotube.org/|
+|IoTeX Blockchain Explorer |https://iotexscan.io/|
 |Block time |~5 seconds|
 
 </TableWrap>
@@ -36,7 +38,7 @@ With an ever-growing ecosystem of projects and products from DeFi to Tools to Ga
 
 <Aside>
 
-All __Class A__ endpoints are supported for the IoTex mainnet and the testnet. You can query either network via the unified API by changing the `chainId`.
+All __Class A__ endpoints are supported for the IoTeX mainnet and the testnet. You can query either network via the unified API by changing the `chainId`.
 
 </Aside>
 
