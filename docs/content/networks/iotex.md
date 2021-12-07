@@ -1,14 +1,14 @@
 ---
-title: IoTex Mainnet & Testnet
+title: IoTeX Mainnet & Testnet
 order: 16
 hidden: false
-featuredImage: ./images/IoTex.png
+featuredImage: ./images/IoTeX.png
 description: IoTeX is a blockchain-based platform, designed to become the decentralized backbone for Internet of Things applications.
 ---
 
-![IoTex network banner](./images/IoTex.png)
+![IoTeX network banner](./images/IoTeX.png)
 
-# IoTex
+# IoTeX
 
 ## Introduction
 
@@ -25,10 +25,10 @@ Pebble is a secure device designed by IoTeX perfect for supply chain optimizatio
 
 |Property|Value|
 |---|---|
-|IoTex Mainnet chainId |`4689`|
-|IoTex Testnet chainId |`4690`|
-|IoTex Bridge |https://iotube.org/|
-|IoTex Blockchain Explorer |https://iotexscan.io/|
+|IoTeX Mainnet chainId |`4689`|
+|IoTeX Testnet chainId |`4690`|
+|IoTeX Bridge |https://iotube.org/|
+|IoTeX Blockchain Explorer |https://iotexscan.io/|
 |Block time |~5 seconds|
 
 </TableWrap>
@@ -38,7 +38,7 @@ Pebble is a secure device designed by IoTeX perfect for supply chain optimizatio
 
 <Aside>
 
-All __Class A__ endpoints are supported for the IoTex mainnet and the testnet. You can query either network via the unified API by changing the `chainId`.
+All __Class A__ endpoints are supported for the IoTeX mainnet and the testnet. You can query either network via the unified API by changing the `chainId`.
 
 </Aside>
 
