@@ -14,10 +14,7 @@ description: IoTeX is a blockchain-based platform, designed to become the decent
 
 [IoTeX](https://iotube.org/) is a blockchain-based platform, designed to become the decentralized backbone for Internet of Things applications. 
 
-With an ever-growing ecosystem of projects and products from DeFi to Tools to Gaming. IoTeX currently leads the world’s premier industry consortiums and standards bodies such as IEEE, IIC, and more. With numerous contributions to the Blockchain and IoT space, the IoTeX blockchain already powers real devices, including award-winning blockchain-powered cameras from Consumer Electronic Show (CES) and the Pebble geo device. 
-
-Pebble is a secure device designed by IoTeX perfect for supply chain optimization in any industry. As a next step, IoTeX is launching "MachineFi" , to power next-gen IoT applications.
-
+With an ever-growing ecosystem of projects and products from DeFi to Tools to Gaming, IoTeX currently leads the world’s premier industry consortiums and standards bodies such as IEEE, IIC, and more. With numerous contributions to the Blockchain and IoT space, the IoTeX blockchain already powers real devices, including Ucam, an award-winning blockchain-powered cameras presented at the Consumer Electronics Show (CES) and the Pebble geo device. Pebble is a secure device designed by IoTeX and perfect for supply chain optimization in any industry. As a next step, IoTeX is launching "MachineFi" , to power next-gen IoT applications.
 
 ### Quick facts
 
