@@ -2,11 +2,11 @@
 title: IoTeX Mainnet & Testnet
 order: 16
 hidden: false
-featuredImage: ./images/IoTeX.png
+featuredImage: ./images/IoTex.png
 description: IoTeX is a blockchain-based platform, designed to become the decentralized backbone for Internet of Things applications.
 ---
 
-![IoTeX network banner](./images/IoTeX.png)
+![IoTeX network banner](./images/IoTex.png)
 
 # IoTeX
 
