@@ -88,8 +88,8 @@ All [**Class A**](https://www.covalenthq.com/docs/api/#tag--Class-A) endpoints a
 | Address | Ethereum mainnet                           | RSK                            |
 | ----- | ------------------------------------------ | ------------------------------------------ |
 | bridge  | 0x12ed69359919fc775bc2674860e8fe2d2b6a7b5d | 0x9d11937e2179dc5270aa86a3f8143232d6da0e69 |
-| federation   | 0x479F86eCbE766073D2712EF418acEb56d5362a2B | 0xE37b6516F4FE2A27569a2751C1aD50F6340DF369 |
-| allowTokens  | 0xe4aa0f414725c9322a1a9d80d469c5e234786653 | 0xe4aa0f414725c9322a1a9d80d469c5e234786653 |
+| federation   | 0x7eCfda6072942577D36F939aD528b366b020004b | 0x5e29C223d99648C88610519f96E85E627b3ABe17 |
+| allowTokens  | 0xcB789036894a83a008a2AA5b3c2DDe41D0605A9A | 0xA3FC98e0a7a979677BC14d541Be770b2cb0A15F3 |
 | multiSigWallet   | 0x040007b1804ad78a97f541bebed377dcb60e4138 | 0x040007b1804ad78a97f541bebed377dcb60e4138 |
 
 
