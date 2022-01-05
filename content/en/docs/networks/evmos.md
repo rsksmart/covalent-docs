@@ -31,7 +31,7 @@ Evmos is an application-agnostic Cosmos chain that will be interoperable with th
 
 <Aside>
 
-All __Class A__ endpoints are supported for the HECO mainnet and the HECO testnet. You can query either network via the unified API by changing the `chainId`.
+All __Class A__ endpoints are supported for the EVMOS mainnet and the EVMOS testnet. You can query either network via the unified API by changing the `chainId`.
 
 </Aside>
 
